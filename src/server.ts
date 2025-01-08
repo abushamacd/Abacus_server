@@ -14,10 +14,3 @@ process.on('uncaughtException', error => {
 bootStrap()
 
 // setInterval(syncInvoices, 1000 * 5)
-
-// process.on('SIGTERM', () => {
-//   logger.info(`Sigterm is received`)
-//   if (server) {
-//     server.close()
-//   }
-// })
