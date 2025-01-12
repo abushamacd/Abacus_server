@@ -30,6 +30,9 @@ model User {
   vehicleSupervisor  Vehicle[] @relation("supervisorRelation")
   invoices           Invoice[]
 
+  isSynced     Boolean   @default(false)
+  lastSyncedAt DateTime?
+
   @@map("users")
 }
 
@@ -38,12 +41,12 @@ model Vehicle {
   vNumber      String  @unique
   route        String
   runningRoute String?
-  oil          Float     @default(0)
-  income       Float     @default(0)
-  expense      Float     @default(0)
-  savings      Float     @default(0)
-  welfare      Float     @default(0)
-  servicing    Float     @default(0)
+  oil          Float   @default(0)
+  income       Float   @default(0)
+  expense      Float   @default(0)
+  savings      Float   @default(0)
+  welfare      Float   @default(0)
+  servicing    Float   @default(0)
   comment      String? @db.VarChar(500)
 
   driverId     String
@@ -74,8 +77,8 @@ model VehicleStatement {
   oil       Float
   income    Float
   expense   Float
-  welfare   Float     @default(0)
-  servicing Float     @default(0)
+  welfare   Float   @default(0)
+  servicing Float   @default(0)
   comment   String? @db.VarChar(500)
 
   vehicleId String
@@ -148,6 +151,9 @@ model Invoice {
 
   customerId String
   customer   User   @relation(fields: [customerId], references: [id])
+
+  isSynced     Boolean   @default(false)
+  lastSyncedAt DateTime?
 
   createdAt DateTime @default(now())
 

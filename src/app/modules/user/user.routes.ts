@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import express from 'express'
 import { auth } from '../../../middleware/auth'
 import { ENUM_USER_ROLE } from '../../../enums/user'
@@ -37,21 +38,22 @@ router
   .patch(auth(ENUM_USER_ROLE.OWNER), updateUserProfile)
 
 router.route('/changeRole').patch(auth(ENUM_USER_ROLE.OWNER), updateUserRole)
-router.route('/changeAccess/:id').patch(auth(ENUM_USER_ROLE.OWNER), updateUserAccess)
-
 router
-  .route('/photo')
-  .post(
-    auth(
-      ENUM_USER_ROLE.OWNER,
-      ENUM_USER_ROLE.MANAGER,
-      ENUM_USER_ROLE.STAFF,
-      ENUM_USER_ROLE.RETAILER,
-      ENUM_USER_ROLE.CONSUMER,
-    ),
-    FileUploadHelper.upload.single('images'),
-    uploadPhoto,
-  )
+  .route('/changeAccess/:id')
+  .patch(auth(ENUM_USER_ROLE.OWNER), updateUserAccess)
+
+router.route('/photo').post(
+  auth(
+    ENUM_USER_ROLE.OWNER,
+    ENUM_USER_ROLE.MANAGER,
+    ENUM_USER_ROLE.STAFF,
+    ENUM_USER_ROLE.RETAILER,
+    ENUM_USER_ROLE.CONSUMER,
+  ),
+  // @ts-ignore
+  FileUploadHelper.upload.single('images'),
+  uploadPhoto,
+)
 
 router.route('/:id').get(getUser).patch(auth(ENUM_USER_ROLE.OWNER), updateUser)
 

@@ -3,8 +3,19 @@ import config from '../config'
 import app from '../app'
 import { errorLogger, logger } from './logger'
 import { Server } from 'http'
-import prisma from './prisma'
+import prisma, { localPrisma } from './prisma'
+import { remotePrisma } from './prisma'
 let server: Server
+
+export async function connectDatabases() {
+  try {
+    await localPrisma.$connect()
+    await remotePrisma.$connect()
+    console.log('✅ All databases connected successfully')
+  } catch (err) {
+    console.error('❌ Error during database connection:', err)
+  }
+}
 
 export async function bootStrap() {
   try {

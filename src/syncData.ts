@@ -1,32 +1,27 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-// syncData.ts
+import { asyncForEach } from './utilities/asyncForEach'
+import { connectDatabases } from './utilities/bootStrap'
+import { errorLogger } from './utilities/logger'
+import { localPrisma } from './utilities/prisma'
 
-import { PrismaClient } from '@prisma/client'
-import config from './config'
-
-export const localPrisma = new PrismaClient({
-  datasources: {
-    db: { url: config.db_url },
-  },
-})
-
-export const remotePrisma = new PrismaClient({
-  datasources: {
-    db: { url: config.remote_db_url }, // Your remote MySQL URL
-  },
-})
-
-// Connect to the local database and log a message on successful connection
-export async function connectDatabases() {
-  await localPrisma.$connect()
-  await remotePrisma.$connect()
-}
-
-// Call the function to establish the connection
-export async function syncInvoices() {
+export async function syncData() {
   try {
     await connectDatabases()
     console.log('✅ All databases connected successfully')
+
+    try {
+      // Get unsynced invoices from the local database
+      const unsyncedData: any = await localPrisma.user.findMany({
+        where: { isSynced: false },
+      })
+
+      await asyncForEach(unsyncedData, async (product: any) => {
+        console.log(product)
+      })
+    } catch (error) {
+      errorLogger.error('Error syncing invoices:', error)
+    }
   } catch (err) {
     console.error('❌ Error during database connection:', err)
   }
