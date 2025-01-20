@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 import { errorLogger, logger } from './utilities/logger'
-import { bootStrap, connectDatabases } from './utilities/bootStrap'
+import { bootStrap } from './utilities/bootStrap'
 import { Server } from 'http'
 import { syncData } from './syncData'
-let server: Server
 
 process.on('uncaughtException', error => {
   errorLogger.error(error)
@@ -12,4 +11,4 @@ process.on('uncaughtException', error => {
 })
 
 bootStrap()
-syncData()
+// syncData()
