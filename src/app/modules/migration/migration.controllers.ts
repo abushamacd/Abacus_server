@@ -12,7 +12,7 @@ export const testDBConnect = tryCatch(async (req: Request, res: Response) => {
   sendRes<any>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'All databases connected successfully',
+    message: 'result',
     data: result,
   })
 })

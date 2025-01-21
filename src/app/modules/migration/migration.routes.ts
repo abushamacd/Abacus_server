@@ -12,6 +12,8 @@ import {
   testDBConnect,
 } from './migration.controllers'
 
+import { connectivity } from '../../../middleware/connectivity'
+
 const router = express.Router()
 
 // example migration route
@@ -26,6 +28,7 @@ const router = express.Router()
 
 router.route('/testConnect').get(
   // auth(ENUM_USER_ROLE.OWNER),
+  connectivity,
   testDBConnect,
 )
 
