@@ -1,21 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Request, Response } from 'express'
-import { tryCatch } from '../../../utilities/tryCatch'
-import { sendRes } from '../../../utilities/sendRes'
-import httpStatus from 'http-status'
-import { testDBConnectService } from './migration.services'
-
-// Test database connection
-export const testDBConnect = tryCatch(async (req: Request, res: Response) => {
-  const result = await testDBConnectService()
-  sendRes<any>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'result',
-    data: result,
-  })
-})
+// import { Request, Response } from 'express'
+// import { tryCatch } from '../../../utilities/tryCatch'
+// import { sendRes } from '../../../utilities/sendRes'
+// import httpStatus from 'http-status'
 
 // // create migration controller
 // export const createMigration = tryCatch(async (req: Request, res: Response) => {

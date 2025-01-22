@@ -3,16 +3,16 @@ import express from 'express'
 // import { auth } from '../../../middleware/auth'
 // import { ENUM_USER_ROLE } from '../../../enums/user'
 // import { createMigrationZod } from './migration.validations'
-import {
-  // createMigration,
-  // deleteMigration,
-  // getMigration,
-  // getMigrations,
-  // updateMigration,
-  testDBConnect,
-} from './migration.controllers'
+// import {
+//   // createMigration,
+//   // deleteMigration,
+//   // getMigration,
+//   // getMigrations,
+//   // updateMigration,
+//   testDBConnect,
+// } from './migration.controllers'
 
-import { connectivity } from '../../../middleware/connectivity'
+// import { connectivity } from '../../../middleware/connectivity'
 
 const router = express.Router()
 
@@ -26,11 +26,11 @@ const router = express.Router()
 //   )
 //   .get(auth(ENUM_USER_ROLE.OWNER), getMigrations)
 
-router.route('/testConnect').get(
-  // auth(ENUM_USER_ROLE.OWNER),
-  connectivity,
-  testDBConnect,
-)
+// router.route('/testConnect').get(
+//   // auth(ENUM_USER_ROLE.OWNER),
+//   connectivity,
+//   testDBConnect,
+// )
 
 // router
 //   .route('/:id')

@@ -20,7 +20,7 @@ export const connectivity = async (
     if (!internetAvailable) {
       res.status(503).json({
         success: false,
-        message: 'Internet connection unavailable. Service unavailable.',
+        message: '❌ Internet connection unavailable. Service unavailable.',
       })
       return // Stop further execution
     }
@@ -30,12 +30,6 @@ export const connectivity = async (
       await localPrisma.$connect()
       await remotePrisma.$connect()
       console.log('✅ All databases connected successfully')
-      // Send response after successful database connection
-      //   res.status(200).json({
-      //     success: true,
-      //     message: 'All databases connected successfullyyyyyyyyyyyyyyyyy',
-      //   })
-      //   return
     } catch (dbError) {
       res.status(500).json({
         success: false,

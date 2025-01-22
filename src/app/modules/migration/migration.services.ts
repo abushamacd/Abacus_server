@@ -6,11 +6,6 @@
 // import { ApiError } from './../../../errorFormating/apiError'
 // import { asyncForEach } from '../../../utilities/asyncForEach'
 
-// Test database connection service
-export const testDBConnectService = async (): Promise<void> => {
-  console.log('testDBConnect========================+++++++++++++++')
-}
-
 // create migration service
 // export const createMigrationService = async (
 //   data: any,
