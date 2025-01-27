@@ -25,11 +25,11 @@ model User {
   activationToken    String?   @db.LongText
   passwordResetToken String?   @db.LongText
   passwordChangeAt   DateTime?
-  createdAt          DateTime  @default(now())
   vehicleDriver      Vehicle[] @relation("driverRelation")
   vehicleSupervisor  Vehicle[] @relation("supervisorRelation")
   invoices           Invoice[]
 
+  createdAt    DateTime  @default(now())
   isSynced     Boolean   @default(false)
   lastSyncedAt DateTime?
 
@@ -56,7 +56,9 @@ model Vehicle {
 
   vehicleStatements VehicleStatement[]
 
-  createdAt DateTime @default(now())
+  createdAt    DateTime  @default(now())
+  isSynced     Boolean   @default(false)
+  lastSyncedAt DateTime?
 
   @@map("vehicles")
 }
@@ -65,7 +67,9 @@ model VehicleRoute {
   id   String @id @default(uuid())
   name String @unique
 
-  createdAt DateTime @default(now())
+  createdAt    DateTime  @default(now())
+  isSynced     Boolean   @default(false)
+  lastSyncedAt DateTime?
 
   @@map("vehicleRoutes")
 }
@@ -84,7 +88,9 @@ model VehicleStatement {
   vehicleId String
   vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
 
-  createdAt DateTime @default(now())
+  createdAt    DateTime  @default(now())
+  isSynced     Boolean   @default(false)
+  lastSyncedAt DateTime?
 
   @@map("vehicleStatements")
 }
@@ -99,8 +105,10 @@ model Supplier {
   srPhone    String
   comment    String? @db.VarChar(500)
 
-  createdAt DateTime  @default(now())
-  products  Product[]
+  products     Product[]
+  createdAt    DateTime  @default(now())
+  isSynced     Boolean   @default(false)
+  lastSyncedAt DateTime?
 
   @@map("suppliers")
 }
@@ -109,8 +117,10 @@ model Unit {
   id   String @id @default(uuid())
   name String @unique
 
-  createdAt DateTime  @default(now())
-  products  Product[]
+  products     Product[]
+  createdAt    DateTime  @default(now())
+  isSynced     Boolean   @default(false)
+  lastSyncedAt DateTime?
 
   @@map("units")
 }
@@ -131,7 +141,9 @@ model Product {
   supplierId String
   supplier   Supplier @relation(fields: [supplierId], references: [id])
 
-  createdAt DateTime @default(now())
+  createdAt    DateTime  @default(now())
+  isSynced     Boolean   @default(false)
+  lastSyncedAt DateTime?
 
   @@map("products")
 }
@@ -152,10 +164,9 @@ model Invoice {
   customerId String
   customer   User   @relation(fields: [customerId], references: [id])
 
+  createdAt    DateTime  @default(now())
   isSynced     Boolean   @default(false)
   lastSyncedAt DateTime?
-
-  createdAt DateTime @default(now())
 
   @@map("invoices")
 }
