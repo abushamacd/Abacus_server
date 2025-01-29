@@ -101,6 +101,7 @@ export const accountActivationService = async (token: string) => {
 
   user.hasAccess = true
   user.activationToken = null
+  user.isSynced = false
   const result = await prisma.user.update({
     where: {
       phone: user.phone,
@@ -210,6 +211,7 @@ export const changePasswordService = async (
 
   const updatedData = {
     password: newHashedPassword,
+    isSynced: false,
   }
 
   await prisma.user.update({
@@ -231,6 +233,8 @@ export const forgetPasswordService = async (email: string) => {
     config.jwt.reset_password_secret as Secret,
     config.jwt.reset_password_secret_expires_in as string,
   )
+
+  isUserExist.isSynced = false
 
   await prisma.user.update({
     where: { email },
@@ -273,6 +277,7 @@ export const resetPasswordService = async (token: string, password: string) => {
 
   user.password = await bcrypt.hash(password, Number(config.bcrypt_solt_round))
   user.passwordResetToken = null
+  user.isSynced = false
   const savedUser = await prisma.user.update({
     where: {
       phone: user.phone,

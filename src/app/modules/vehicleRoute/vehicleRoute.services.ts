@@ -132,6 +132,8 @@ export const updateVehicleRouteService = async (
     throw new ApiError(httpStatus.BAD_REQUEST, 'VehicleRoute not found')
   }
 
+  payload.isSynced = false
+
   const result = await prisma.vehicleRoute.update({
     where: {
       id,
@@ -157,7 +159,7 @@ export const deleteVehicleRouteService = async (
   })
 
   if (!isExist) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'VehicleRoute not found')
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Vehicle route not found')
   }
 
   const result = await prisma.vehicleRoute.delete({

@@ -133,6 +133,8 @@ export const updateVehicleService = async (
     },
   })
 
+  payload.isSynced = false
+
   if (!isExist) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Vehicle not found')
   }

@@ -123,6 +123,8 @@ export const updateUnitService = async (
     },
   })
 
+  payload.isSynced = false
+
   if (!isExist) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Unit not found')
   }
