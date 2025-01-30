@@ -38,6 +38,7 @@ export const createVehicleStatementService = async (
     vehicle.expense += vStatement?.expense
     vehicle.welfare += vStatement?.welfare
     vehicle.servicing += vStatement?.servicing
+    vehicle.isSynced = false
 
     await transactionClient.vehicle.update({
       where: {
@@ -181,6 +182,9 @@ export const updateVehicleStatementService = async (
     if (vData?.welfare) vehicle.welfare += vData?.welfare
     if (vData?.servicing) vehicle.servicing += vData?.servicing
 
+    vehicle.isSynced = false
+    vData.isSynced = false
+
     await transactionClient.vehicle.update({
       where: {
         id: isExist?.vehicleId,
@@ -235,6 +239,7 @@ export const deleteVehicleStatementService = async (
     vehicle.expense -= isExist?.expense
     vehicle.welfare -= isExist?.welfare
     vehicle.servicing -= isExist?.servicing
+    vehicle.isSynced = false
 
     await transactionClient.vehicle.update({
       where: {
