@@ -1,41 +1,45 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// import { Prisma } from '@prisma/client'
-// import prisma from '../../../utilities/prisma'
-// import httpStatus from 'http-status'
-// import { ApiError } from './../../../errorFormating/apiError'
+import { connectDatabases } from '../../../utilities/bootStrap'
 // import { asyncForEach } from '../../../utilities/asyncForEach'
 
-// create migration service
-// export const createMigrationService = async (
-//   data: any,
-// ): Promise<any | null> => {
-//   const migration = await prisma.migration.findFirst({
+// test db connection service
+export const testDbsyncService = async (): Promise<any | null> => {
+  const result = await connectDatabases()
+
+  return result
+}
+
+// create dbsync service
+// export const createDbsyncService = async (
+//   data: Dbsync,
+// ): Promise<Dbsync | null> => {
+//   const dbsync = await prisma.dbsync.findFirst({
 //     where: {
 //       filed_name: data?.filed_name,
 //     },
 //   })
 
-//   if (migration) {
-//     throw new ApiError(httpStatus.NOT_FOUND, "any is already exist")
+//   if (dbsync) {
+//     throw new ApiError(httpStatus.NOT_FOUND, "Dbsync is already exist")
 //   }
 
-//   const result = await prisma.migration.create({
+//   const result = await prisma.dbsync.create({
 //     data,
 //   })
 
 //   if (!result) {
-//     throw new Error("any create failed")
+//     throw new Error("Dbsync create failed")
 //   }
 
 //   return result
 // }
 
-// get migrations service
-// export const getMigrationsService = async (
-//   filters: IMigrationFilterRequest,
+// get dbsyncs service
+// export const getDbsyncsService = async (
+//   filters: IDbsyncFilterRequest,
 //   options: IPaginationOptions,
-// ): Promise<IGenericResponse<any[]> | null> => {
+// ): Promise<IGenericResponse<Dbsync[]> | null> => {
 //   const { limit, page, skip } = calculatePagination(options)
 //   const { searchTerm, ...filterData } = filters
 
@@ -43,7 +47,7 @@
 
 //   if (searchTerm) {
 //     andConditions.push({
-//       OR: migrationSearchableFields.map(field => ({
+//       OR: dbsyncSearchableFields.map(field => ({
 //         [field]: {
 //           contains: searchTerm,
 //           // mode: 'insensitive',
@@ -62,10 +66,10 @@
 //     })
 //   }
 
-//   const whereConditions: Prisma.MigrationWhereInput =
+//   const whereConditions: Prisma.DbsyncWhereInput =
 //     andConditions.length > 0 ? { AND: andConditions } : {}
 
-//   const result = await prisma.migration.findMany({
+//   const result = await prisma.dbsync.findMany({
 //     where: whereConditions,
 //     skip,
 //     take: limit,
@@ -82,10 +86,10 @@
 //   })
 
 //   if (!result) {
-//     throw new Error('any retrived failed')
+//     throw new Error('Dbsync retrived failed')
 //   }
 
-//   const total = await prisma.migration.count({
+//   const total = await prisma.dbsync.count({
 //     where: whereConditions,
 //   })
 
@@ -99,9 +103,9 @@
 //   }
 // }
 
-// get migration service
-// export const getMigrationService = async (id: string): Promise<any | null>  => {
-//   const result = await prisma.migration.findUnique({
+// get dbsync service
+// export const getDbsyncService = async (id: string): Promise<Dbsync | null>  => {
+//   const result = await prisma.dbsync.findUnique({
 //     where: {
 //       id,
 //     },
@@ -112,28 +116,28 @@
 //   })
 
 //   if (!result) {
-//     throw new Error('any retrived failed')
+//     throw new Error('Dbsync retrived failed')
 //   }
 
 //   return result
 // }
 
-// // update migration service
-// export const updateMigrationService = async (
+// update dbsync service
+// export const updateDbsyncService = async (
 //   id: string,
-//   payload: Partial<any>,
-// ): Promise<any | null> => {
-//   const isExist = await prisma.migration.findUnique({
+//   payload: Partial<Dbsync>,
+// ): Promise<Dbsync | null> => {
+//   const isExist = await prisma.dbsync.findUnique({
 //     where: {
 //       id,
 //     },
 //   })
 
 //   if (!isExist) {
-//     throw new ApiError(httpStatus.BAD_REQUEST, 'any not found')
+//     throw new ApiError(httpStatus.BAD_REQUEST, 'Dbsync not found')
 //   }
 
-//   const result = await prisma.migration.update({
+//   const result = await prisma.dbsync.update({
 //     where: {
 //       id,
 //     },
@@ -145,17 +149,17 @@
 //   })
 
 //   if (!result) {
-//     throw new Error('any update failed')
+//     throw new Error('Dbsync update failed')
 //   }
 
 //   return result
 // }
 
-// delete migration service
-// export const deleteMigrationService = async (
+// delete dbsync service
+// export const deleteDbsyncService = async (
 //   id: string,
-// ): Promise<any | null> => {
-//   const isExist = await prisma.migration.findUnique({
+// ): Promise<Dbsync | null> => {
+//   const isExist = await prisma.dbsync.findUnique({
 //     where: {
 //       id,
 //     },
@@ -170,17 +174,17 @@
 //   })
 
 //   if (!isExist) {
-//     throw new ApiError(httpStatus.BAD_REQUEST, 'any not found')
+//     throw new ApiError(httpStatus.BAD_REQUEST, 'Dbsync not found')
 //   }
 
-//   const result = await prisma.migration.delete({
+//   const result = await prisma.dbsync.delete({
 //     where: {
 //       id,
 //     },
 //   })
 
 //   // await prisma.$transaction(async transactionClient => {
-//   //   await asyncForEach(isExist?.sections, async (section: any) => {
+//   //   await asyncForEach(isExist?.sections, async (section: Dbsync) => {
 //   //     await transactionClient.task.deleteMany({
 //   //       where: {
 //   //         sectionId: section?.id,
@@ -190,11 +194,11 @@
 
 //   //   await transactionClient.section.deleteMany({
 //   //     where: {
-//   //       migrationId: id,
+//   //       dbsyncId: id,
 //   //     },
 //   //   })
 
-//   //   await transactionClient.migration.delete({
+//   //   await transactionClient.dbsync.delete({
 //   //     where: {
 //   //       id,
 //   //     },

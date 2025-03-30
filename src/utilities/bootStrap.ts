@@ -5,15 +5,18 @@ import { errorLogger, logger } from './logger'
 import { Server } from 'http'
 import prisma, { localPrisma } from './prisma'
 import { remotePrisma } from './prisma'
+import httpStatus from 'http-status'
 let server: Server
 
 export async function connectDatabases() {
   try {
     await localPrisma.$connect()
     await remotePrisma.$connect()
-    console.log('✅ All databases connected successfully')
+    console.log()
+    return { statusCode: httpStatus.OK }
   } catch (err) {
-    console.error('❌ Error during database connection:', err)
+    // console.error('❌ Error during database connection:', err)
+    return { statusCode: httpStatus.INTERNAL_SERVER_ERROR, data: err }
   }
 }
 
