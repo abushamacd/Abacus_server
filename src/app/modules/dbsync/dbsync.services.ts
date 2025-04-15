@@ -32,6 +32,15 @@ export const getDbUnsyncsService = async (
   }
 }
 
+// delete products service
+export const updateUnsyncsService = async (
+  data: any[],
+): Promise<any | null> => {
+  console.log(data)
+
+  return null
+}
+
 // get dbsync service
 // export const getDbsyncService = async (id: string): Promise<Dbsync | null>  => {
 //   const result = await prisma.dbsync.findUnique({

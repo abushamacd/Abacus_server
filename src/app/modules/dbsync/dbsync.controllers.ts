@@ -4,7 +4,11 @@ import { Request, Response } from 'express'
 import { tryCatch } from '../../../utilities/tryCatch'
 import { sendRes } from '../../../utilities/sendRes'
 import httpStatus from 'http-status'
-import { getDbUnsyncsService, testDbsyncService } from './dbsync.services'
+import {
+  getDbUnsyncsService,
+  testDbsyncService,
+  updateUnsyncsService,
+} from './dbsync.services'
 // import {createDbsyncService,  deleteDbsyncService, getDbsyncService, getDbsyncsService,   updateDbsyncService } from './dbsync.services'
 // import { dbsyncFilterableFields } from './dbsync.constants'
 // import { paginationFields } from '../../../constants/pagination'
@@ -30,6 +34,17 @@ export const getUnsyncs = tryCatch(async (req: Request, res: Response) => {
     message: 'Dbsyncs retrived successfully',
     meta: result?.meta,
     data: result?.data,
+  })
+})
+
+// delete products
+export const updateUnsyncs = tryCatch(async (req: Request, res: Response) => {
+  const result = await updateUnsyncsService(req.body)
+  sendRes<any | null>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Database syncs successfully',
+    data: result,
   })
 })
 

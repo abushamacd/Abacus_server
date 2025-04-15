@@ -3,7 +3,7 @@ import express from 'express'
 import { auth } from '../../../middleware/auth'
 import { ENUM_USER_ROLE } from '../../../enums/user'
 // import { createDbsyncZod } from './dbsync.validations'
-import { getUnsyncs, testDbsync } from './dbsync.controllers'
+import { getUnsyncs, testDbsync, updateUnsyncs } from './dbsync.controllers'
 
 const router = express.Router()
 
@@ -18,13 +18,14 @@ router
   .get(auth(ENUM_USER_ROLE.OWNER), testDbsync)
 
 router
-  .route('/unsync')
+  .route('/unSyncLtoR')
   //   .post(
   //     auth(ENUM_USER_ROLE.OWNER,),
   //     reqValidate(createDbsyncZod),
   //     createDbsync
   //   )
   .get(getUnsyncs)
+  .patch(updateUnsyncs)
 
 // router
 //   .route('/:id')
