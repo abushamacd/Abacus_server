@@ -1,8 +1,13 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import httpStatus from 'http-status'
+import { ApiError } from '../../../errorFormating/apiError'
 import { IGenericResponse } from '../../../interface/common'
+import { asyncForEach } from '../../../utilities/asyncForEach'
 import { connectDatabases } from '../../../utilities/bootStrap'
-import { localPrisma } from '../../../utilities/prisma'
+import { localPrisma, remotePrisma } from '../../../utilities/prisma'
 // import prisma from '../../../utilities/prisma'
 // import { asyncForEach } from '../../../utilities/asyncForEach'
 
@@ -32,116 +37,85 @@ export const getDbUnsyncsService = async (
   }
 }
 
-// delete products service
+// update Unsyncs service
 export const updateUnsyncsService = async (
-  data: any[],
+  payload: any,
 ): Promise<any | null> => {
-  console.log(data)
+  // @ts-ignore
+  const { data } = payload
 
-  return null
+  const result = await asyncForEach(data, async (singleData: any) => {
+    const result = await remotePrisma.$transaction(async remoteTx => {
+      // @ts-ignore
+      const find = await remoteTx[payload?.schemaName].findFirst({
+        where: {
+          id: singleData?.id,
+        },
+      })
+
+      if (find !== null) {
+        // @ts-ignore
+        const result = await remoteTx[payload?.schemaName].update({
+          where: { id: find?.id },
+          data: singleData,
+        })
+
+        if (result == null) {
+          throw new ApiError(
+            httpStatus.NOT_FOUND,
+            'Data not updated on remote data',
+          )
+        }
+
+        const update = await localPrisma.$transaction(async localTx => {
+          // @ts-ignore
+          const update = await localTx[payload?.schemaName].update({
+            where: { id: result?.id },
+            data: { isSynced: true },
+          })
+          return update
+        })
+
+        if (update == null) {
+          throw new ApiError(
+            httpStatus.NOT_FOUND,
+            'Data not updated on local data',
+          )
+        }
+        return update
+      } else {
+        // @ts-ignore
+        const result = await remoteTx[payload?.schemaName].create({
+          data: singleData,
+        })
+
+        if (result == null) {
+          throw new ApiError(
+            httpStatus.NOT_FOUND,
+            'Data not create on remote data',
+          )
+        }
+
+        const update = await localPrisma.$transaction(async localTx => {
+          // @ts-ignore
+          const update = await localTx[payload?.schemaName].update({
+            where: { id: result?.id },
+            data: { isSynced: true },
+          })
+          return update
+        })
+
+        if (update == null) {
+          throw new ApiError(
+            httpStatus.NOT_FOUND,
+            'Data not updated on local data',
+          )
+        }
+        return update
+      }
+    })
+    return result
+  })
+
+  return result
 }
-
-// get dbsync service
-// export const getDbsyncService = async (id: string): Promise<Dbsync | null>  => {
-//   const result = await prisma.dbsync.findUnique({
-//     where: {
-//       id,
-//     },
-//     include: {
-//       driver: true,
-//       supervisor: true,
-//     },
-//   })
-
-//   if (!result) {
-//     throw new Error('Dbsync retrived failed')
-//   }
-
-//   return result
-// }
-
-// update dbsync service
-// export const updateDbsyncService = async (
-//   id: string,
-//   payload: Partial<Dbsync>,
-// ): Promise<Dbsync | null> => {
-//   const isExist = await prisma.dbsync.findUnique({
-//     where: {
-//       id,
-//     },
-//   })
-
-//   if (!isExist) {
-//     throw new ApiError(httpStatus.BAD_REQUEST, 'Dbsync not found')
-//   }
-
-//   const result = await prisma.dbsync.update({
-//     where: {
-//       id,
-//     },
-//     data: payload,
-//     include: {
-//       driver: true,
-//       supervisor: true,
-//     },
-//   })
-
-//   if (!result) {
-//     throw new Error('Dbsync update failed')
-//   }
-
-//   return result
-// }
-
-// delete dbsync service
-// export const deleteDbsyncService = async (
-//   id: string,
-// ): Promise<Dbsync | null> => {
-//   const isExist = await prisma.dbsync.findUnique({
-//     where: {
-//       id,
-//     },
-//     // include: {
-//     //   // @ts-ignore
-//     //   tasks: {
-//     //     orderBy: {
-//     //       position: 'asc',
-//     //     },
-//     //   },
-//     // },
-//   })
-
-//   if (!isExist) {
-//     throw new ApiError(httpStatus.BAD_REQUEST, 'Dbsync not found')
-//   }
-
-//   const result = await prisma.dbsync.delete({
-//     where: {
-//       id,
-//     },
-//   })
-
-//   // await prisma.$transaction(async transactionClient => {
-//   //   await asyncForEach(isExist?.sections, async (section: Dbsync) => {
-//   //     await transactionClient.task.deleteMany({
-//   //       where: {
-//   //         sectionId: section?.id,
-//   //       },
-//   //     })
-//   //   })
-
-//   //   await transactionClient.section.deleteMany({
-//   //     where: {
-//   //       dbsyncId: id,
-//   //     },
-//   //   })
-
-//   //   await transactionClient.dbsync.delete({
-//   //     where: {
-//   //       id,
-//   //     },
-//   //   })
-//   // })
-
-//   return result
-// }
