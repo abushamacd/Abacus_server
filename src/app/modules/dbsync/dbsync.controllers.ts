@@ -9,10 +9,6 @@ import {
   testDbsyncService,
   updateUnsyncsService,
 } from './dbsync.services'
-// import {createDbsyncService,  deleteDbsyncService, getDbsyncService, getDbsyncsService,   updateDbsyncService } from './dbsync.services'
-// import { dbsyncFilterableFields } from './dbsync.constants'
-// import { paginationFields } from '../../../constants/pagination'
-// import { pick } from '../../../utilities/pick'
 
 // test db connection
 export const testDbsync = tryCatch(async (req: Request, res: Response) => {
@@ -27,7 +23,10 @@ export const testDbsync = tryCatch(async (req: Request, res: Response) => {
 
 // // get Db Unsyncs controller
 export const getUnsyncs = tryCatch(async (req: Request, res: Response) => {
-  const result = await getDbUnsyncsService(req?.query)
+  const result = await getDbUnsyncsService(
+    req?.route?.path.slice(1),
+    req?.query,
+  )
   sendRes<any[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -39,7 +38,7 @@ export const getUnsyncs = tryCatch(async (req: Request, res: Response) => {
 
 // delete products
 export const updateUnsyncs = tryCatch(async (req: Request, res: Response) => {
-  const result = await updateUnsyncsService(req.body)
+  const result = await updateUnsyncsService(req?.route?.path.slice(1), req.body)
   sendRes<any | null>(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -47,38 +46,3 @@ export const updateUnsyncs = tryCatch(async (req: Request, res: Response) => {
     data: result,
   })
 })
-
-// // get dbsync controller
-// export const getDbsync = tryCatch(async (req: Request, res: Response) => {
-//   const result = await getDbsyncService(req?.params?.id)
-//   sendRes<Dbsync>(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Dbsync retrived successfully',
-//     data: result,
-//   })
-// })
-
-// // update dbsync controller
-// export const updateDbsync = tryCatch(async (req: Request, res: Response) => {
-//   const { id } = req.params
-//   const result = await updateDbsyncService(id, req?.body)
-//   sendRes<Dbsync>(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Dbsync updated successfully',
-//     data: result,
-//   })
-// })
-
-// // delete dbsync
-// export const deleteDbsync = tryCatch(async (req: Request, res: Response) => {
-//   const { id } = req.params
-//   const result = await deleteDbsyncService(id)
-//   sendRes<Dbsync | null>(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Dbsync deleted successfully',
-//     data: result,
-//   })
-// })

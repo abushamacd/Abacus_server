@@ -17,20 +17,8 @@ router
   //   )
   .get(auth(ENUM_USER_ROLE.OWNER), testDbsync)
 
-router
-  .route('/unSyncLtoR')
-  //   .post(
-  //     auth(ENUM_USER_ROLE.OWNER,),
-  //     reqValidate(createDbsyncZod),
-  //     createDbsync
-  //   )
-  .get(getUnsyncs)
-  .patch(updateUnsyncs)
+router.route('/unSyncLtoR').get(getUnsyncs).patch(updateUnsyncs)
 
-// router
-//   .route('/:id')
-//   .get(auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.MANAGER), getDbsync)
-//   .patch(auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.MANAGER), updateDbsync)
-//     .delete(auth(ENUM_USER_ROLE.OWNER), deleteDbsync)
+router.route('/unSyncRtoL').get(getUnsyncs).patch(updateUnsyncs)
 
 export default router
