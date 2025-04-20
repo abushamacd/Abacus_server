@@ -247,3 +247,19 @@ export const getUnmargeService = async (
     data: unMargeData,
   }
 }
+
+// delete products service
+export const deleteUnmargeService = async (
+  payload: any,
+): Promise<any | null> => {
+  // @ts-ignore
+  const result = await remotePrisma[payload?.schemaName].deleteMany({
+    where: {
+      id: {
+        in: payload?.data,
+      },
+    },
+  })
+
+  return result
+}

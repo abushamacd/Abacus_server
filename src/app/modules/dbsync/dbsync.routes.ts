@@ -4,6 +4,7 @@ import { auth } from '../../../middleware/auth'
 import { ENUM_USER_ROLE } from '../../../enums/user'
 // import { createDbsyncZod } from './dbsync.validations'
 import {
+  deleteUnmarge,
   getUnmarge,
   getUnsyncs,
   testDbsync,
@@ -26,6 +27,6 @@ router.route('/unSyncLtoR').get(getUnsyncs).patch(updateUnsyncs)
 
 router.route('/unSyncRtoL').get(getUnsyncs).patch(updateUnsyncs)
 
-router.route('/unmarge').get(getUnmarge).patch(updateUnsyncs)
+router.route('/unmarge').get(getUnmarge).delete(deleteUnmarge)
 
 export default router

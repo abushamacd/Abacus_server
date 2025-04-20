@@ -5,6 +5,7 @@ import { tryCatch } from '../../../utilities/tryCatch'
 import { sendRes } from '../../../utilities/sendRes'
 import httpStatus from 'http-status'
 import {
+  deleteUnmargeService,
   getDbUnsyncsService,
   getUnmargeService,
   testDbsyncService,
@@ -51,6 +52,18 @@ export const updateUnsyncs = tryCatch(async (req: Request, res: Response) => {
 // // get Unmarge controller
 export const getUnmarge = tryCatch(async (req: Request, res: Response) => {
   const result = await getUnmargeService(req?.route?.path.slice(1), req?.query)
+  sendRes<any[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Unmarged retrived successfully',
+    meta: result?.meta,
+    data: result?.data,
+  })
+})
+
+// // get Unmarge controller
+export const deleteUnmarge = tryCatch(async (req: Request, res: Response) => {
+  const result = await deleteUnmargeService(req.body)
   sendRes<any[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
