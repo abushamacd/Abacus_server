@@ -222,3 +222,28 @@ export const updateUnsyncsService = async (
 
   return null
 }
+
+// get Db Unsyncs Service
+export const getUnmargeService = async (
+  path: string,
+  schemaName: any,
+): Promise<IGenericResponse<any[]> | null> => {
+  // @ts-ignore
+  const localData = await localPrisma[schemaName?.schemaName].findMany({})
+  // @ts-ignore
+  const remoteData = await remotePrisma[schemaName?.schemaName].findMany({})
+
+  const localIds = new Set(localData.map((item: any) => item.id))
+
+  const unMargeData = remoteData.filter((item: any) => !localIds.has(item.id))
+  // .map((item: any) => item.id)
+
+  return {
+    meta: {
+      total: unMargeData.length,
+      page: 0,
+      limit: 0,
+    },
+    data: unMargeData,
+  }
+}

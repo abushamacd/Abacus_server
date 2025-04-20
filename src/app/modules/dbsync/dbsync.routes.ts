@@ -3,7 +3,12 @@ import express from 'express'
 import { auth } from '../../../middleware/auth'
 import { ENUM_USER_ROLE } from '../../../enums/user'
 // import { createDbsyncZod } from './dbsync.validations'
-import { getUnsyncs, testDbsync, updateUnsyncs } from './dbsync.controllers'
+import {
+  getUnmarge,
+  getUnsyncs,
+  testDbsync,
+  updateUnsyncs,
+} from './dbsync.controllers'
 
 const router = express.Router()
 
@@ -20,5 +25,7 @@ router
 router.route('/unSyncLtoR').get(getUnsyncs).patch(updateUnsyncs)
 
 router.route('/unSyncRtoL').get(getUnsyncs).patch(updateUnsyncs)
+
+router.route('/unmarge').get(getUnmarge).patch(updateUnsyncs)
 
 export default router

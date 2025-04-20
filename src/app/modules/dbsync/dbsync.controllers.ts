@@ -6,6 +6,7 @@ import { sendRes } from '../../../utilities/sendRes'
 import httpStatus from 'http-status'
 import {
   getDbUnsyncsService,
+  getUnmargeService,
   testDbsyncService,
   updateUnsyncsService,
 } from './dbsync.services'
@@ -44,5 +45,17 @@ export const updateUnsyncs = tryCatch(async (req: Request, res: Response) => {
     success: true,
     message: 'Database syncs successfully',
     data: result,
+  })
+})
+
+// // get Unmarge controller
+export const getUnmarge = tryCatch(async (req: Request, res: Response) => {
+  const result = await getUnmargeService(req?.route?.path.slice(1), req?.query)
+  sendRes<any[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Unmarged retrived successfully',
+    meta: result?.meta,
+    data: result?.data,
   })
 })
