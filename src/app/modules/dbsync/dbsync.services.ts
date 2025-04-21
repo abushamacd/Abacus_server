@@ -9,18 +9,19 @@ import { asyncForEach } from '../../../utilities/asyncForEach'
 import { connectDatabases } from '../../../utilities/bootStrap'
 import { localPrisma, remotePrisma } from '../../../utilities/prisma'
 
-// test db connection service
+// Test database connection service
 export const testDbsyncService = async (): Promise<any | null> => {
   const result = await connectDatabases()
 
   return result
 }
 
-// get Db Unsyncs Service
+// Get unsyncs Service
 export const getDbUnsyncsService = async (
   path: string,
   schemaName: any,
 ): Promise<IGenericResponse<any[]> | null> => {
+  // Get data from local
   if (path === 'unSyncLtoR') {
     // @ts-ignore
     const unsyncedData = await localPrisma[schemaName?.schemaName].findMany({
@@ -36,7 +37,7 @@ export const getDbUnsyncsService = async (
       data: unsyncedData,
     }
   }
-
+  // Get data from remote
   if (path === 'unSyncRtoL') {
     // @ts-ignore
     const unsyncedData = await remotePrisma[schemaName?.schemaName].findMany({
@@ -56,7 +57,7 @@ export const getDbUnsyncsService = async (
   return null
 }
 
-// update Unsyncs service
+// Update unsyncs service
 export const updateUnsyncsService = async (
   path: string,
   payload: any,
@@ -74,7 +75,7 @@ export const updateUnsyncsService = async (
             id: singleData?.id,
           },
         })
-
+        // If data exist on remote database run if condition, if not exist run else condition
         if (find !== null) {
           // @ts-ignore
           const result = await remoteTx[payload?.schemaName].update({
@@ -223,9 +224,8 @@ export const updateUnsyncsService = async (
   return null
 }
 
-// get Db Unsyncs Service
+// Get unmarge service
 export const getUnmargeService = async (
-  path: string,
   schemaName: any,
 ): Promise<IGenericResponse<any[]> | null> => {
   // @ts-ignore
@@ -248,7 +248,7 @@ export const getUnmargeService = async (
   }
 }
 
-// delete products service
+// Delete unmarge service
 export const deleteUnmargeService = async (
   payload: any,
 ): Promise<any | null> => {

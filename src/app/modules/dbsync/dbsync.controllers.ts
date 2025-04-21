@@ -12,7 +12,7 @@ import {
   updateUnsyncsService,
 } from './dbsync.services'
 
-// test db connection
+// Test database connection
 export const testDbsync = tryCatch(async (req: Request, res: Response) => {
   const result = await testDbsyncService()
   sendRes<any>(res, {
@@ -23,7 +23,7 @@ export const testDbsync = tryCatch(async (req: Request, res: Response) => {
   })
 })
 
-// // get Db Unsyncs controller
+// Get unsyncs controller
 export const getUnsyncs = tryCatch(async (req: Request, res: Response) => {
   const result = await getDbUnsyncsService(
     req?.route?.path.slice(1),
@@ -38,7 +38,7 @@ export const getUnsyncs = tryCatch(async (req: Request, res: Response) => {
   })
 })
 
-// delete products
+// Update unsyncs controller
 export const updateUnsyncs = tryCatch(async (req: Request, res: Response) => {
   const result = await updateUnsyncsService(req?.route?.path.slice(1), req.body)
   sendRes<any | null>(res, {
@@ -49,9 +49,9 @@ export const updateUnsyncs = tryCatch(async (req: Request, res: Response) => {
   })
 })
 
-// // get Unmarge controller
+// Get unmarge controller
 export const getUnmarge = tryCatch(async (req: Request, res: Response) => {
-  const result = await getUnmargeService(req?.route?.path.slice(1), req?.query)
+  const result = await getUnmargeService(req?.query)
   sendRes<any[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -61,7 +61,7 @@ export const getUnmarge = tryCatch(async (req: Request, res: Response) => {
   })
 })
 
-// // get Unmarge controller
+// Delete unmarge controller
 export const deleteUnmarge = tryCatch(async (req: Request, res: Response) => {
   const result = await deleteUnmargeService(req.body)
   sendRes<any[]>(res, {

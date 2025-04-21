@@ -14,19 +14,21 @@ import {
 const router = express.Router()
 
 // example dbsync route
+router.route('/').get(auth(ENUM_USER_ROLE.OWNER), testDbsync)
+
 router
-  .route('/')
-  //   .post(
-  //     auth(ENUM_USER_ROLE.OWNER,),
-  //     reqValidate(createDbsyncZod),
-  //     createDbsync
-  //   )
-  .get(auth(ENUM_USER_ROLE.OWNER), testDbsync)
+  .route('/unSyncLtoR')
+  .get(auth(ENUM_USER_ROLE.OWNER), getUnsyncs)
+  .patch(auth(ENUM_USER_ROLE.OWNER), updateUnsyncs)
 
-router.route('/unSyncLtoR').get(getUnsyncs).patch(updateUnsyncs)
+router
+  .route('/unSyncRtoL')
+  .get(auth(ENUM_USER_ROLE.OWNER), getUnsyncs)
+  .patch(auth(ENUM_USER_ROLE.OWNER), updateUnsyncs)
 
-router.route('/unSyncRtoL').get(getUnsyncs).patch(updateUnsyncs)
-
-router.route('/unmarge').get(getUnmarge).delete(deleteUnmarge)
+router
+  .route('/unmarge')
+  .get(auth(ENUM_USER_ROLE.OWNER), getUnmarge)
+  .delete(auth(ENUM_USER_ROLE.OWNER), deleteUnmarge)
 
 export default router
