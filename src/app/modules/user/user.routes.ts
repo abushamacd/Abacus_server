@@ -29,7 +29,6 @@ router
     auth(
       ENUM_USER_ROLE.OWNER,
       ENUM_USER_ROLE.MANAGER,
-      ENUM_USER_ROLE.STAFF,
       ENUM_USER_ROLE.RETAILER,
       ENUM_USER_ROLE.CONSUMER,
     ),
@@ -46,7 +45,6 @@ router.route('/photo').post(
   auth(
     ENUM_USER_ROLE.OWNER,
     ENUM_USER_ROLE.MANAGER,
-    ENUM_USER_ROLE.STAFF,
     ENUM_USER_ROLE.RETAILER,
     ENUM_USER_ROLE.CONSUMER,
   ),
