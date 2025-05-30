@@ -2,9 +2,6 @@ import express from 'express'
 const router = express.Router()
 import authRoute from '../modules/auth/auth.routes'
 import userRoute from '../modules/user/user.routes'
-import vehicleRoute from '../modules/vehicle/vehicle.routes'
-import vehicleStatementRoute from '../modules/vehicleStatement/vehicleStatement.routes'
-import vehicleRouteRoute from '../modules/vehicleRoute/vehicleRoute.routes'
 import supplierRoute from '../modules/supplier/supplier.routes'
 import unitRoute from '../modules/unit/unit.routes'
 import productRoute from '../modules/product/product.routes'
@@ -19,18 +16,6 @@ const appRoutes = [
   {
     path: '/user',
     route: userRoute,
-  },
-  {
-    path: '/vehicle',
-    route: vehicleRoute,
-  },
-  {
-    path: '/vehicleStatement',
-    route: vehicleStatementRoute,
-  },
-  {
-    path: '/vehicleRoute',
-    route: vehicleRouteRoute,
   },
   {
     path: '/supplier',

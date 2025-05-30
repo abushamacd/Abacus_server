@@ -29,66 +29,8 @@ model User {
   isSynced           Boolean   @default(false)
   lastSyncedAt       DateTime?
   invoices           Invoice[]
-  vehicleDriver      Vehicle[] @relation("driverRelation")
-  vehicleSupervisor  Vehicle[] @relation("supervisorRelation")
 
   @@map("users")
-}
-
-model Vehicle {
-  id                String             @id @default(uuid())
-  vNumber           String             @unique
-  route             String
-  runningRoute      String?
-  oil               Float              @default(0)
-  income            Float              @default(0)
-  expense           Float              @default(0)
-  savings           Float              @default(0)
-  welfare           Float              @default(0)
-  servicing         Float              @default(0)
-  comment           String?            @db.VarChar(500)
-  driverId          String
-  supervisorId      String
-  createdAt         DateTime           @default(now())
-  isSynced          Boolean            @default(false)
-  lastSyncedAt      DateTime?
-  vehicleStatements VehicleStatement[]
-  driver            User               @relation("driverRelation", fields: [driverId], references: [id])
-  supervisor        User               @relation("supervisorRelation", fields: [supervisorId], references: [id])
-
-  @@index([driverId], map: "vehicles_driverId_fkey")
-  @@index([supervisorId], map: "vehicles_supervisorId_fkey")
-  @@map("vehicles")
-}
-
-model VehicleRoute {
-  id           String    @id @default(uuid())
-  name         String    @unique
-  createdAt    DateTime  @default(now())
-  isSynced     Boolean   @default(false)
-  lastSyncedAt DateTime?
-
-  @@map("vehicleRoutes")
-}
-
-model VehicleStatement {
-  id           String    @id @default(uuid())
-  date         String
-  route        String
-  oil          Float
-  income       Float
-  expense      Float
-  welfare      Float     @default(0)
-  servicing    Float     @default(0)
-  comment      String?   @db.VarChar(500)
-  vehicleId    String
-  createdAt    DateTime  @default(now())
-  isSynced     Boolean   @default(false)
-  lastSyncedAt DateTime?
-  vehicle      Vehicle   @relation(fields: [vehicleId], references: [id])
-
-  @@index([vehicleId], map: "vehicleStatements_vehicleId_fkey")
-  @@map("vehicleStatements")
 }
 
 model Supplier {
@@ -167,7 +109,6 @@ model Invoice {
 enum role {
   Consumer
   Retailer
-  Staff
   Manager
   Owner
 }
