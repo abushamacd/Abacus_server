@@ -175,12 +175,12 @@ export const refreshTokenService = async (
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist')
   }
 
-  // if (user?.hasAccess === false) {
-  //   throw new ApiError(
-  //     httpStatus.NOT_FOUND,
-  //     'You have no access. Please contact to the Owner',
-  //   )
-  // }
+  if (user?.hasAccess === false) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'You have no access. Please contact to the Owner',
+    )
+  }
 
   //Generate New Access Token
   const newAccessToken = createToken(
