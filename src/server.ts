@@ -3,8 +3,7 @@
 import { errorLogger, logger } from './utilities/logger'
 import { bootStrap } from './utilities/bootStrap'
 import { Server } from 'http'
-import { syncInvoices } from './syncData'
-let server: Server
+import { syncData } from './syncData'
 
 process.on('uncaughtException', error => {
   errorLogger.error(error)
@@ -12,5 +11,4 @@ process.on('uncaughtException', error => {
 })
 
 bootStrap()
-
-// setInterval(syncInvoices, 1000 * 5)
+// syncData()

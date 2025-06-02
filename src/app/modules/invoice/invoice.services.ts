@@ -19,6 +19,7 @@ export const createInvoiceService = async (
   data: any,
 ): Promise<Invoice | null> => {
   data.updateBy = user?.name
+  data.isSynced = false
 
   const lastInvoice = await prisma.invoice.findFirst({
     orderBy: {
@@ -41,7 +42,10 @@ export const createInvoiceService = async (
           where: {
             name: product.product,
           },
-          data: { quantity: +findProduct.quantity - product.quantity },
+          data: {
+            quantity: +findProduct.quantity - product.quantity,
+            isSynced: false,
+          },
         })
     })
 
@@ -54,7 +58,7 @@ export const createInvoiceService = async (
     if (data?.due > 0) {
       await transactionClient.user.update({
         where: { id: data.customerId },
-        data: { due: { increment: data.due } },
+        data: { due: { increment: data.due }, isSynced: false },
       })
     }
 
@@ -156,6 +160,7 @@ export const updateInvoiceService = async (
   payload: any,
 ): Promise<Invoice | null> => {
   payload.updateBy = user?.name
+  payload.isSynced = false
   const isExist = await prisma.invoice.findUnique({
     where: {
       id,
@@ -180,14 +185,20 @@ export const updateInvoiceService = async (
             where: {
               name: product.product,
             },
-            data: { quantity: +(findProduct.quantity + product.quantity) },
+            data: {
+              quantity: +(findProduct.quantity + product.quantity),
+              isSynced: false,
+            },
           })
       })
 
       const { removed, ...data } = payload
       await transactionClient.user.update({
         where: { id: data.customerId },
-        data: { due: { decrement: +(isExist.due - data.due) } },
+        data: {
+          due: { decrement: +(isExist.due - data.due) },
+          isSynced: false,
+        },
       })
 
       if (data?.products?.length <= 0) {
@@ -220,12 +231,12 @@ export const updateInvoiceService = async (
     const result = await prisma.$transaction(async transactionClient => {
       await transactionClient.user.update({
         where: { id: isExist.customerId },
-        data: { due: { decrement: isExist.due } },
+        data: { due: { decrement: isExist.due }, isSynced: false },
       })
 
       await transactionClient.user.update({
         where: { id: payload.customerId },
-        data: { due: { increment: payload.due } },
+        data: { due: { increment: payload.due }, isSynced: false },
       })
 
       await asyncForEach(payload?.removed, async (product: any) => {
@@ -240,7 +251,10 @@ export const updateInvoiceService = async (
             where: {
               name: product.product,
             },
-            data: { quantity: +(findProduct.quantity + product.quantity) },
+            data: {
+              quantity: +(findProduct.quantity + product.quantity),
+              isSynced: false,
+            },
           })
       })
 

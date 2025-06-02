@@ -129,6 +129,7 @@ export const updateProductService = async (
   payload: Partial<Product>,
 ): Promise<Product | null> => {
   payload.updateBy = user?.name
+  payload.isSynced = false
   const isExist = await prisma.product.findUnique({
     where: {
       id,

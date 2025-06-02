@@ -1,32 +1,39 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-// syncData.ts
+import { asyncForEach } from './utilities/asyncForEach'
+import { connectDatabases } from './utilities/bootStrap'
+import { errorLogger } from './utilities/logger'
+import { localPrisma, remotePrisma } from './utilities/prisma'
 
-import { PrismaClient } from '@prisma/client'
-import config from './config'
-
-export const localPrisma = new PrismaClient({
-  datasources: {
-    db: { url: config.db_url },
-  },
-})
-
-export const remotePrisma = new PrismaClient({
-  datasources: {
-    db: { url: config.remote_db_url }, // Your remote MySQL URL
-  },
-})
-
-// Connect to the local database and log a message on successful connection
-export async function connectDatabases() {
-  await localPrisma.$connect()
-  await remotePrisma.$connect()
-}
-
-// Call the function to establish the connection
-export async function syncInvoices() {
+export async function syncData() {
   try {
     await connectDatabases()
     console.log('✅ All databases connected successfully')
+
+    try {
+      // Get unsynced invoices from the local database
+      const unsyncedData: any = await localPrisma.user.findMany({
+        where: { isSynced: false },
+      })
+
+      if (unsyncedData.length > 0) {
+        await asyncForEach(unsyncedData, async (data: any) => {
+          const result = await remotePrisma.user.create({ data: data })
+          // Mark as synced in the local database
+          if (result) {
+            await localPrisma.user.update({
+              where: { id: data?.id },
+              data: { isSynced: true },
+            })
+          }
+        })
+      } else {
+        console.log(`No new entry`)
+      }
+    } catch (error) {
+      errorLogger.error('Error syncing data:', error)
+    }
   } catch (err) {
     console.error('❌ Error during database connection:', err)
   }

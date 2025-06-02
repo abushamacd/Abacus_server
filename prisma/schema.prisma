@@ -26,138 +26,90 @@ model User {
   passwordResetToken String?   @db.LongText
   passwordChangeAt   DateTime?
   createdAt          DateTime  @default(now())
-  vehicleDriver      Vehicle[] @relation("driverRelation")
-  vehicleSupervisor  Vehicle[] @relation("supervisorRelation")
+  isSynced           Boolean   @default(false)
+  lastSyncedAt       DateTime?
   invoices           Invoice[]
 
   @@map("users")
 }
 
-model Vehicle {
-  id           String  @id @default(uuid())
-  vNumber      String  @unique
-  route        String
-  runningRoute String?
-  oil          Float     @default(0)
-  income       Float     @default(0)
-  expense      Float     @default(0)
-  savings      Float     @default(0)
-  welfare      Float     @default(0)
-  servicing    Float     @default(0)
-  comment      String? @db.VarChar(500)
-
-  driverId     String
-  driver       User   @relation("driverRelation", fields: [driverId], references: [id])
-  supervisorId String
-  supervisor   User   @relation("supervisorRelation", fields: [supervisorId], references: [id])
-
-  vehicleStatements VehicleStatement[]
-
-  createdAt DateTime @default(now())
-
-  @@map("vehicles")
-}
-
-model VehicleRoute {
-  id   String @id @default(uuid())
-  name String @unique
-
-  createdAt DateTime @default(now())
-
-  @@map("vehicleRoutes")
-}
-
-model VehicleStatement {
-  id        String  @id @default(uuid())
-  date      String
-  route     String
-  oil       Float
-  income    Float
-  expense   Float
-  welfare   Float     @default(0)
-  servicing Float     @default(0)
-  comment   String? @db.VarChar(500)
-
-  vehicleId String
-  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
-
-  createdAt DateTime @default(now())
-
-  @@map("vehicleStatements")
-}
-
 model Supplier {
-  id         String  @id @default(uuid())
-  name       String  @unique
-  address    String
-  ownerName  String
-  ownerPhone String
-  srName     String
-  srPhone    String
-  comment    String? @db.VarChar(500)
-
-  createdAt DateTime  @default(now())
-  products  Product[]
+  id           String    @id @default(uuid())
+  name         String    @unique
+  address      String
+  ownerName    String
+  ownerPhone   String
+  srName       String
+  srPhone      String
+  comment      String?   @db.VarChar(500)
+  createdAt    DateTime  @default(now())
+  isSynced     Boolean   @default(false)
+  lastSyncedAt DateTime?
+  products     Product[]
 
   @@map("suppliers")
 }
 
 model Unit {
-  id   String @id @default(uuid())
-  name String @unique
-
-  createdAt DateTime  @default(now())
-  products  Product[]
+  id           String    @id @default(uuid())
+  name         String    @unique
+  createdAt    DateTime  @default(now())
+  isSynced     Boolean   @default(false)
+  lastSyncedAt DateTime?
+  products     Product[]
 
   @@map("units")
 }
 
 model Product {
-  id          String  @id @default(uuid())
-  name        String  @unique
-  quantity    Float
-  minQuantity Float
-  purchase    Float
-  sell        Float
-  retail      Float
-  comment     String? @db.VarChar(500)
-  updateBy    String
+  id           String    @id @default(uuid())
+  name         String    @unique
+  slug         String    @unique
+  quantity     Float
+  minQuantity  Float
+  purchase     Float
+  sell         Float
+  retail       Float
+  comment      String?   @db.VarChar(500)
+  updateBy     String
+  unitId       String
+  supplierId   String
+  createdAt    DateTime  @default(now())
+  isSynced     Boolean   @default(false)
+  lastSyncedAt DateTime?
+  supplier     Supplier  @relation(fields: [supplierId], references: [id])
+  unit         Unit      @relation(fields: [unitId], references: [id])
 
-  unitId     String
-  unit       Unit     @relation(fields: [unitId], references: [id])
-  supplierId String
-  supplier   Supplier @relation(fields: [supplierId], references: [id])
-
-  createdAt DateTime @default(now())
-
+  @@index([supplierId], map: "products_supplierId_fkey")
+  @@index([unitId], map: "products_unitId_fkey")
   @@map("products")
 }
 
 model Invoice {
-  id            String  @id @default(uuid())
-  invoiceNumber Int     @default(0)
+  id            String    @id @default(uuid())
+  invoiceNumber Int       @default(0)
   customerName  String
   date          String
   total         Float
   paid          Float
   due           Float
   profit        Float
-  note          String? @db.VarChar(500)
+  note          String?   @db.VarChar(500)
   updateBy      String
-  products      Json
+  products      String    @db.LongText
+  customerId    String
+  createdAt     DateTime  @default(now())
+  isSynced      Boolean   @default(false)
+  lastSyncedAt  DateTime?
+  customer      User      @relation(fields: [customerId], references: [id])
 
-  customerId String
-  customer   User   @relation(fields: [customerId], references: [id])
-
-  createdAt DateTime @default(now())
-
+  @@index([customerId], map: "invoices_customerId_fkey")
   @@map("invoices")
 }
 
 enum role {
   Consumer
   Retailer
-  Staff
   Manager
   Owner
 }

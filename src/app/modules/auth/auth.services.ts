@@ -101,6 +101,7 @@ export const accountActivationService = async (token: string) => {
 
   user.hasAccess = true
   user.activationToken = null
+  user.isSynced = false
   const result = await prisma.user.update({
     where: {
       phone: user.phone,
@@ -117,6 +118,14 @@ export const signInService = async (
 ): Promise<IAuthSigninResponse | null> => {
   // existency check
   const user = await isExist(data.phone)
+
+  if (user?.hasAccess === false) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'You have no access. Please contact to the Owner',
+    )
+  }
+
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Phone is incorrect')
   }
@@ -127,17 +136,18 @@ export const signInService = async (
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect')
   }
 
+  const { id, role, phone, name, hasAccess } = user
+
   // Create Access Token
-  const { id, role, phone, name } = user
   const accessToken = createToken(
-    { id, role, phone, name },
+    { id, role, phone, name, hasAccess },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string,
   )
 
   // Create Refresh Token
   const refreshToken = createToken(
-    { id, role, phone, name },
+    { id, role, phone, name, hasAccess },
     config.jwt.refresh_secret as Secret,
     config.jwt.refresh_expires_in as string,
   )
@@ -165,6 +175,13 @@ export const refreshTokenService = async (
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist')
   }
 
+  if (user?.hasAccess === false) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'You have no access. Please contact to the Owner',
+    )
+  }
+
   //Generate New Access Token
   const newAccessToken = createToken(
     {
@@ -172,6 +189,7 @@ export const refreshTokenService = async (
       role: user.role,
       phone: user.phone,
       name: user.name,
+      hasAccess: user.hasAccess,
     },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string,
@@ -210,6 +228,7 @@ export const changePasswordService = async (
 
   const updatedData = {
     password: newHashedPassword,
+    isSynced: false,
   }
 
   await prisma.user.update({
@@ -231,6 +250,8 @@ export const forgetPasswordService = async (email: string) => {
     config.jwt.reset_password_secret as Secret,
     config.jwt.reset_password_secret_expires_in as string,
   )
+
+  isUserExist.isSynced = false
 
   await prisma.user.update({
     where: { email },
@@ -273,6 +294,7 @@ export const resetPasswordService = async (token: string, password: string) => {
 
   user.password = await bcrypt.hash(password, Number(config.bcrypt_solt_round))
   user.passwordResetToken = null
+  user.isSynced = false
   const savedUser = await prisma.user.update({
     where: {
       phone: user.phone,

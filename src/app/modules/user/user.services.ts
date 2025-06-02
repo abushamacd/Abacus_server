@@ -69,6 +69,8 @@ export const updateUserProfileService = async (id: string, payload: User) => {
     }
   }
 
+  userData.isSynced = false
+
   const result = await prisma.user.update({
     where: {
       id,
@@ -103,7 +105,7 @@ export const updateUserRoleService = async (payload: Partial<User>) => {
     where: {
       id,
     },
-    data: { role: role },
+    data: { role: role, isSynced: false },
   })
 
   return result
@@ -133,7 +135,7 @@ export const updateUserAccessService = async (id: string, payload: any) => {
       where: {
         id,
       },
-      data: { hasAccess: payload?.value },
+      data: { hasAccess: payload?.value, isSynced: false },
     })
 
     return result
@@ -144,7 +146,7 @@ export const updateUserAccessService = async (id: string, payload: any) => {
       where: {
         id,
       },
-      data: { hasAccess: payload?.value },
+      data: { hasAccess: payload?.value, isSynced: false },
     })
 
     return result
@@ -179,6 +181,7 @@ export const uploadPhotoService = async (req: Request) => {
     const data: Partial<User> = {
       public_id: photo?.public_id,
       url: photo?.secure_url,
+      isSynced: false,
     }
 
     const result = await prisma.user.update({
@@ -199,6 +202,7 @@ export const uploadPhotoService = async (req: Request) => {
     const data: Partial<User> = {
       public_id: photo?.public_id,
       url: photo?.secure_url,
+      isSynced: false,
     }
 
     const result = await prisma.user.update({
@@ -281,20 +285,11 @@ export const deleteUserService = async (id: string): Promise<User | null> => {
     where: {
       id,
     },
-    // include: {
-    //   tasks: true,
-    // },
   })
 
   if (!isExist) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User not found')
   }
-
-  // if (isExist?.tasks.length > 0) {
-  //   throw new Error(
-  //     `User is assign to task ${isExist?.tasks[0]?.title}. First remove the user from task ${isExist?.tasks[0]?.title}`,
-  //   )
-  // }
 
   const result = await prisma.user.delete({
     where: {
@@ -347,6 +342,7 @@ export const updateUserService = async (id: string, payload: User) => {
       )
     }
   }
+  userData.isSynced = false
 
   const result = await prisma.user.update({
     where: {

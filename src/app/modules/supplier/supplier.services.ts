@@ -142,6 +142,8 @@ export const updateSupplierService = async (
     },
   })
 
+  payload.isSynced = false
+
   if (!isExist) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Supplier not found')
   }
