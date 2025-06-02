@@ -6,8 +6,12 @@ export const createProductZod = z.object({
     name: z.string({
       required_error: 'Product name is required',
     }),
-
-    supplierId: z.string().optional(),
+    slug: z.string({
+      required_error: 'Product slug is required',
+    }),
+    supplierId: z.string({
+      required_error: 'Supplier is required',
+    }),
     unitId: z.string({
       required_error: 'Unit is required',
     }),

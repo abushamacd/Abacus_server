@@ -64,6 +64,7 @@ model Unit {
 model Product {
   id           String    @id @default(uuid())
   name         String    @unique
+  slug         String    @unique
   quantity     Float
   minQuantity  Float
   purchase     Float
