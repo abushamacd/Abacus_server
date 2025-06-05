@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { User } from '@prisma/client'
 import prisma from '../../../utilities/prisma'
 import bcrypt from 'bcrypt'
@@ -205,36 +207,40 @@ export const changePasswordService = async (
   payload: IChangePassword,
   user: Partial<User>,
 ) => {
-  const { oldPassword, newPassword } = payload
-  const { phone } = user
-  const isUserExist = await isExist(phone as string)
-
-  if (!isUserExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
-  }
-
-  if (
-    isUserExist.password &&
-    !(await isPasswordMatched(oldPassword, isUserExist.password))
-  ) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Old password is incorrect')
-  }
-
-  // hass
-  const newHashedPassword = await bcrypt.hash(
-    newPassword,
-    Number(config.bcrypt_solt_round),
+  throw new ApiError(
+    httpStatus.UNAUTHORIZED,
+    'Password change not available in demo',
   )
+  // const { oldPassword, newPassword } = payload
+  // const { phone } = user
+  // const isUserExist = await isExist(phone as string)
 
-  const updatedData = {
-    password: newHashedPassword,
-    isSynced: false,
-  }
+  // if (!isUserExist) {
+  //   throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
+  // }
 
-  await prisma.user.update({
-    where: { phone },
-    data: updatedData,
-  })
+  // if (
+  //   isUserExist.password &&
+  //   !(await isPasswordMatched(oldPassword, isUserExist.password))
+  // ) {
+  //   throw new ApiError(httpStatus.UNAUTHORIZED, 'Old password is incorrect')
+  // }
+
+  // // hass
+  // const newHashedPassword = await bcrypt.hash(
+  //   newPassword,
+  //   Number(config.bcrypt_solt_round),
+  // )
+
+  // const updatedData = {
+  //   password: newHashedPassword,
+  //   isSynced: false,
+  // }
+
+  // await prisma.user.update({
+  //   where: { phone },
+  //   data: updatedData,
+  // })
 }
 
 // forget password
