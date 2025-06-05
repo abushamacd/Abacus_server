@@ -1,4 +1,3 @@
-
 import { z } from 'zod'
 
 // Create dbsync zod validation schema

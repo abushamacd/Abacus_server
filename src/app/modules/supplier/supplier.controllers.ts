@@ -1,10 +1,15 @@
-
 import { Request, Response } from 'express'
 import { tryCatch } from '../../../utilities/tryCatch'
 import { sendRes } from '../../../utilities/sendRes'
 import httpStatus from 'http-status'
 import { Supplier } from '@prisma/client'
-import {createSupplierService,  deleteSupplierService, getSupplierService, getSuppliersService,   updateSupplierService } from './supplier.services'
+import {
+  createSupplierService,
+  deleteSupplierService,
+  getSupplierService,
+  getSuppliersService,
+  updateSupplierService,
+} from './supplier.services'
 import { supplierFilterableFields } from './supplier.constants'
 import { paginationFields } from '../../../constants/pagination'
 import { pick } from '../../../utilities/pick'
@@ -19,8 +24,6 @@ export const createSupplier = tryCatch(async (req: Request, res: Response) => {
     data: result,
   })
 })
-
-
 
 // get suppliers controller
 export const getSuppliers = tryCatch(async (req: Request, res: Response) => {
@@ -70,4 +73,3 @@ export const deleteSupplier = tryCatch(async (req: Request, res: Response) => {
     data: result,
   })
 })
-

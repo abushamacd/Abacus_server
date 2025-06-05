@@ -1,4 +1,3 @@
-
 // supplier interfaces
 export type ISupplier = {
   field_name: string

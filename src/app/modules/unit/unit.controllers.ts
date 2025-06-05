@@ -1,10 +1,15 @@
-
 import { Request, Response } from 'express'
 import { tryCatch } from '../../../utilities/tryCatch'
 import { sendRes } from '../../../utilities/sendRes'
 import httpStatus from 'http-status'
 import { Unit } from '@prisma/client'
-import {createUnitService,  deleteUnitService, getUnitService, getUnitsService,   updateUnitService } from './unit.services'
+import {
+  createUnitService,
+  deleteUnitService,
+  getUnitService,
+  getUnitsService,
+  updateUnitService,
+} from './unit.services'
 import { unitFilterableFields } from './unit.constants'
 import { paginationFields } from '../../../constants/pagination'
 import { pick } from '../../../utilities/pick'
@@ -19,8 +24,6 @@ export const createUnit = tryCatch(async (req: Request, res: Response) => {
     data: result,
   })
 })
-
-
 
 // get units controller
 export const getUnits = tryCatch(async (req: Request, res: Response) => {
@@ -70,4 +73,3 @@ export const deleteUnit = tryCatch(async (req: Request, res: Response) => {
     data: result,
   })
 })
-

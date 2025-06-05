@@ -1,4 +1,3 @@
-
 // dbsync interfaces
 export type IDbsync = {
   field_name: string

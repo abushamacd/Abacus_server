@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-undef */
 import { createLogger, format, transports } from 'winston'
 const { combine, timestamp, label, printf } = format
@@ -5,6 +6,7 @@ import DailyRotateFile from 'winston-daily-rotate-file'
 import path from 'path'
 
 const myFormat = printf(({ level, message, label, timestamp }) => {
+  // @ts-ignore
   const date = new Date(timestamp)
 
   return `${date} - [${label}] ${level}: ${message}`
