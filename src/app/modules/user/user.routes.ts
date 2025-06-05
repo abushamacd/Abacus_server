@@ -34,7 +34,15 @@ router
     ),
     getUserProfile,
   )
-  .patch(auth(ENUM_USER_ROLE.OWNER), updateUserProfile)
+  .patch(
+    auth(
+      ENUM_USER_ROLE.OWNER,
+      ENUM_USER_ROLE.MANAGER,
+      ENUM_USER_ROLE.RETAILER,
+      ENUM_USER_ROLE.CONSUMER,
+    ),
+    updateUserProfile,
+  )
 
 router.route('/changeRole').patch(auth(ENUM_USER_ROLE.OWNER), updateUserRole)
 router
@@ -53,7 +61,10 @@ router.route('/photo').post(
   uploadPhoto,
 )
 
-router.route('/:id').get(getUser).patch(auth(ENUM_USER_ROLE.OWNER), updateUser)
+router
+  .route('/:id')
+  .get(auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.MANAGER), getUser)
+  .patch(auth(ENUM_USER_ROLE.OWNER), updateUser)
 
 router.route('/:id').delete(auth(ENUM_USER_ROLE.OWNER), deleteUser)
 

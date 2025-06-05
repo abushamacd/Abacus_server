@@ -22,7 +22,7 @@ router
     reqValidate(createProductZod),
     createProduct,
   )
-  .get(auth(ENUM_USER_ROLE.OWNER), getProducts)
+  .get(auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.MANAGER), getProducts)
   .delete(auth(ENUM_USER_ROLE.OWNER), deleteProducts)
 
 router
