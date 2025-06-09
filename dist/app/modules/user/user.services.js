@@ -261,11 +261,11 @@ const deleteUserService = (id) => __awaiter(void 0, void 0, void 0, function* ()
     if (!isExist) {
         throw new apiError_1.ApiError(http_status_1.default.BAD_REQUEST, 'User not found');
     }
-    // const result = await prisma.user.delete({
-    //   where: {
-    //     id,
-    //   },
-    // })
+    const result = yield prisma_1.default.user.delete({
+        where: {
+            id,
+        },
+    });
     return null;
 });
 exports.deleteUserService = deleteUserService;

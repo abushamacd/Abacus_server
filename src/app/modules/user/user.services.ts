@@ -295,11 +295,11 @@ export const deleteUserService = async (id: string): Promise<User | null> => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User not found')
   }
 
-  // const result = await prisma.user.delete({
-  //   where: {
-  //     id,
-  //   },
-  // })
+  const result = await prisma.user.delete({
+    where: {
+      id,
+    },
+  })
 
   return null
 }
