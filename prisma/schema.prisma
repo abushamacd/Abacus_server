@@ -64,7 +64,6 @@ model Unit {
 model Product {
   id           String    @id @default(uuid())
   name         String    @unique
-  slug         String    @unique
   quantity     Float
   minQuantity  Float
   purchase     Float
@@ -77,6 +76,7 @@ model Product {
   createdAt    DateTime  @default(now())
   isSynced     Boolean   @default(false)
   lastSyncedAt DateTime?
+  slug         String    @unique
   supplier     Supplier  @relation(fields: [supplierId], references: [id])
   unit         Unit      @relation(fields: [unitId], references: [id])
 

@@ -255,15 +255,18 @@ const deleteUserService = (id) => __awaiter(void 0, void 0, void 0, function* ()
             id,
         },
     });
+    if ((isExist === null || isExist === void 0 ? void 0 : isExist.role) === "Owner") {
+        throw new apiError_1.ApiError(http_status_1.default.UNAUTHORIZED, `Don't try to delete owner account`);
+    }
     if (!isExist) {
         throw new apiError_1.ApiError(http_status_1.default.BAD_REQUEST, 'User not found');
     }
-    const result = yield prisma_1.default.user.delete({
-        where: {
-            id,
-        },
-    });
-    return result;
+    // const result = await prisma.user.delete({
+    //   where: {
+    //     id,
+    //   },
+    // })
+    return null;
 });
 exports.deleteUserService = deleteUserService;
 // update user service

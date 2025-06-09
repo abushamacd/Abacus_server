@@ -149,26 +149,32 @@ const refreshTokenService = (token) => __awaiter(void 0, void 0, void 0, functio
 exports.refreshTokenService = refreshTokenService;
 // change password
 const changePasswordService = (payload, user) => __awaiter(void 0, void 0, void 0, function* () {
-    const { oldPassword, newPassword } = payload;
-    const { phone } = user;
-    const isUserExist = yield (0, auth_utils_1.isExist)(phone);
-    if (!isUserExist) {
-        throw new apiError_1.ApiError(http_status_1.default.NOT_FOUND, 'User not found');
-    }
-    if (isUserExist.password &&
-        !(yield (0, auth_utils_1.isPasswordMatched)(oldPassword, isUserExist.password))) {
-        throw new apiError_1.ApiError(http_status_1.default.UNAUTHORIZED, 'Old password is incorrect');
-    }
-    // hass
-    const newHashedPassword = yield bcrypt_1.default.hash(newPassword, Number(config_1.default.bcrypt_solt_round));
-    const updatedData = {
-        password: newHashedPassword,
-        isSynced: false,
-    };
-    yield prisma_1.default.user.update({
-        where: { phone },
-        data: updatedData,
-    });
+    throw new apiError_1.ApiError(http_status_1.default.UNAUTHORIZED, 'Password change not available in demo');
+    // const { oldPassword, newPassword } = payload
+    // const { phone } = user
+    // const isUserExist = await isExist(phone as string)
+    // if (!isUserExist) {
+    //   throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
+    // }
+    // if (
+    //   isUserExist.password &&
+    //   !(await isPasswordMatched(oldPassword, isUserExist.password))
+    // ) {
+    //   throw new ApiError(httpStatus.UNAUTHORIZED, 'Old password is incorrect')
+    // }
+    // // hass
+    // const newHashedPassword = await bcrypt.hash(
+    //   newPassword,
+    //   Number(config.bcrypt_solt_round),
+    // )
+    // const updatedData = {
+    //   password: newHashedPassword,
+    //   isSynced: false,
+    // }
+    // await prisma.user.update({
+    //   where: { phone },
+    //   data: updatedData,
+    // })
 });
 exports.changePasswordService = changePasswordService;
 // forget password
