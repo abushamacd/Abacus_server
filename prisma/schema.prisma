@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider          = "mysql"
-  url               = env("REMOTE_DATABASE_URL")
-  shadowDatabaseUrl = env("REMOTE_SHADOW_DATABASE_URL")
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
@@ -76,7 +76,7 @@ model Product {
   createdAt    DateTime  @default(now())
   isSynced     Boolean   @default(false)
   lastSyncedAt DateTime?
-  slug         String    @unique
+  slug         String    
   supplier     Supplier  @relation(fields: [supplierId], references: [id])
   unit         Unit      @relation(fields: [unitId], references: [id])
 
