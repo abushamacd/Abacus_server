@@ -30,7 +30,6 @@ const apiError_1 = require("./../../../errorFormating/apiError");
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
 const product_constants_1 = require("./product.constants");
 const asyncForEach_1 = require("../../../utilities/asyncForEach");
-// import { asyncForEach } from '../../../utilities/asyncForEach'
 // create product service
 const createProductService = (user, data) => __awaiter(void 0, void 0, void 0, function* () {
     data.updateBy = user === null || user === void 0 ? void 0 : user.name;

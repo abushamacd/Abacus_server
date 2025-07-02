@@ -22,6 +22,7 @@ const apiError_1 = require("../../../errorFormating/apiError");
 const asyncForEach_1 = require("../../../utilities/asyncForEach");
 const bootStrap_1 = require("../../../utilities/bootStrap");
 const prisma_1 = require("../../../utilities/prisma");
+const config_1 = __importDefault(require("../../../config"));
 // Test database connection service
 const testDbsyncService = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield (0, bootStrap_1.connectDatabases)();
@@ -121,7 +122,10 @@ const updateUnsyncsService = (path, payload) => __awaiter(void 0, void 0, void 0
                     }
                     return update;
                 }
-            }));
+            }), {
+                maxWait: Number(config_1.default.txwait),
+                timeout: Number(config_1.default.txtimeout),
+            });
             return result;
         }));
         return result;
@@ -179,7 +183,10 @@ const updateUnsyncsService = (path, payload) => __awaiter(void 0, void 0, void 0
                     }
                     return update;
                 }
-            }));
+            }), {
+                maxWait: Number(config_1.default.txwait),
+                timeout: Number(config_1.default.txtimeout),
+            });
             return result;
         }));
         return result;
@@ -195,7 +202,6 @@ const getUnmargeService = (schemaName) => __awaiter(void 0, void 0, void 0, func
     const remoteData = yield prisma_1.remotePrisma[schemaName === null || schemaName === void 0 ? void 0 : schemaName.schemaName].findMany({});
     const localIds = new Set(localData.map((item) => item.id));
     const unMargeData = remoteData.filter((item) => !localIds.has(item.id));
-    // .map((item: any) => item.id)
     return {
         meta: {
             total: unMargeData.length,

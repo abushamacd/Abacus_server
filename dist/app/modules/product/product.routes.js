@@ -10,12 +10,13 @@ const user_1 = require("../../../enums/user");
 const product_validations_1 = require("./product.validations");
 const product_controllers_1 = require("./product.controllers");
 const router = express_1.default.Router();
-// example product route
+// create & get product
 router
     .route('/')
-    .post((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER), (0, reqValidate_1.default)(product_validations_1.createProductZod), product_controllers_1.createProduct)
+    .post((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER, user_1.ENUM_USER_ROLE.MANAGER), (0, reqValidate_1.default)(product_validations_1.createProductZod), product_controllers_1.createProduct)
     .get((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER, user_1.ENUM_USER_ROLE.MANAGER), product_controllers_1.getProducts)
     .delete((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER), product_controllers_1.deleteProducts);
+// get, update & delete product
 router
     .route('/:id')
     .get((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER, user_1.ENUM_USER_ROLE.MANAGER), product_controllers_1.getProduct)

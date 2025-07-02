@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createSupplierZod = void 0;
 const zod_1 = require("zod");
-// Create supplier zod validation schema
+// create supplier zod validation schema
 exports.createSupplierZod = zod_1.z.object({
     body: zod_1.z.object({
         name: zod_1.z.string({

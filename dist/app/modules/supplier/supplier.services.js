@@ -29,7 +29,6 @@ const http_status_1 = __importDefault(require("http-status"));
 const apiError_1 = require("./../../../errorFormating/apiError");
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
 const supplier_constants_1 = require("./supplier.constants");
-// import { asyncForEach } from '../../../utilities/asyncForEach'
 // create supplier service
 const createSupplierService = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const supplier = yield prisma_1.default.supplier.findFirst({
@@ -59,7 +58,6 @@ const getSuppliersService = (filters, options) => __awaiter(void 0, void 0, void
             OR: supplier_constants_1.supplierSearchableFields.map(field => ({
                 [field]: {
                     contains: searchTerm,
-                    // mode: 'insensitive',
                 },
             })),
         });
@@ -83,10 +81,6 @@ const getSuppliersService = (filters, options) => __awaiter(void 0, void 0, void
             : {
                 name: 'asc',
             },
-        // include: {
-        //   driver: true,
-        //   supervisor: true,
-        // },
     });
     if (!result) {
         throw new Error('Supplier retrived failed');

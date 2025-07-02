@@ -38,7 +38,7 @@ exports.getInvoices = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, v
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Invoices retrived successfully',
+        message: 'Invoices get successfully',
         meta: result === null || result === void 0 ? void 0 : result.meta,
         data: result === null || result === void 0 ? void 0 : result.data,
     });
@@ -50,7 +50,7 @@ exports.getInvoice = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, vo
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Invoice retrived successfully',
+        message: 'Invoice get successfully',
         data: result,
     });
 }));
@@ -61,7 +61,7 @@ exports.updateInvoice = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0,
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Invoice updated successfully',
+        message: 'Invoice update successfully',
         data: result,
     });
 }));
@@ -72,7 +72,7 @@ exports.deleteInvoice = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0,
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Invoice deleted successfully',
+        message: 'Invoice delete successfully',
         data: result,
     });
 }));
@@ -82,7 +82,7 @@ exports.deleteInvoices = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Invoices deleted successfully',
+        message: 'Invoices delete successfully',
         data: result,
     });
 }));

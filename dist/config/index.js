@@ -9,6 +9,9 @@ dotenv_1.default.config({ path: path_1.default.join(process.cwd(), '.env') });
 exports.default = {
     env: process.env.NODE_ENV,
     port: process.env.PORT,
+    limit: process.env.LIMIT,
+    txwait: process.env.TXWAIT,
+    txtimeout: process.env.TXTIME,
     bcrypt_solt_round: process.env.BCRYPT_SOLT_ROUND,
     client_url: process.env.CLIENT_URL,
     db_url: process.env.DATABASE_URL,

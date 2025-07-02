@@ -38,7 +38,7 @@ exports.getSuppliers = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, 
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Suppliers retrived successfully',
+        message: 'Suppliers get successfully',
         meta: result === null || result === void 0 ? void 0 : result.meta,
         data: result === null || result === void 0 ? void 0 : result.data,
     });
@@ -50,7 +50,7 @@ exports.getSupplier = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, v
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Supplier retrived successfully',
+        message: 'Supplier get successfully',
         data: result,
     });
 }));
@@ -72,7 +72,7 @@ exports.deleteSupplier = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Supplier deleted successfully',
+        message: 'Supplier delete successfully',
         data: result,
     });
 }));

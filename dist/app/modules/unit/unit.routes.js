@@ -10,11 +10,12 @@ const user_1 = require("../../../enums/user");
 const unit_validations_1 = require("./unit.validations");
 const unit_controllers_1 = require("./unit.controllers");
 const router = express_1.default.Router();
-// example unit route
+// create & get unites
 router
     .route('/')
     .post((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER, user_1.ENUM_USER_ROLE.MANAGER), (0, reqValidate_1.default)(unit_validations_1.createUnitZod), unit_controllers_1.createUnit)
     .get((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER, user_1.ENUM_USER_ROLE.MANAGER), unit_controllers_1.getUnits);
+// get, update & delete unit
 router
     .route('/:id')
     .get((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER, user_1.ENUM_USER_ROLE.MANAGER), unit_controllers_1.getUnit)

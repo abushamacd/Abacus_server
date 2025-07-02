@@ -38,7 +38,7 @@ exports.getUnits = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, void
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Units retrived successfully',
+        message: 'Units get successfully',
         meta: result === null || result === void 0 ? void 0 : result.meta,
         data: result === null || result === void 0 ? void 0 : result.data,
     });
@@ -50,7 +50,7 @@ exports.getUnit = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, void 
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Unit retrived successfully',
+        message: 'Unit get successfully',
         data: result,
     });
 }));
@@ -61,18 +61,18 @@ exports.updateUnit = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, vo
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Unit updated successfully',
+        message: 'Unit update successfully',
         data: result,
     });
 }));
-// delete unit
+// delete unit controller
 exports.deleteUnit = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const result = yield (0, unit_services_1.deleteUnitService)(id);
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Unit deleted successfully',
+        message: 'Unit delete successfully',
         data: result,
     });
 }));

@@ -24,7 +24,7 @@ exports.testDbsync = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, vo
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Create dbsync successfully',
+        message: 'Database connected successfully',
         data: result,
     });
 }));
@@ -35,7 +35,7 @@ exports.getUnsyncs = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, vo
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Dbsyncs retrived successfully',
+        message: 'Data get successfully',
         meta: result === null || result === void 0 ? void 0 : result.meta,
         data: result === null || result === void 0 ? void 0 : result.data,
     });
@@ -57,7 +57,7 @@ exports.getUnmarge = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, vo
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Unmarged retrived successfully',
+        message: 'Unmarged get successfully',
         meta: result === null || result === void 0 ? void 0 : result.meta,
         data: result === null || result === void 0 ? void 0 : result.data,
     });
@@ -68,7 +68,7 @@ exports.deleteUnmarge = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0,
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Unmarged retrived successfully',
+        message: 'Unmarged delete successfully',
         meta: result === null || result === void 0 ? void 0 : result.meta,
         data: result === null || result === void 0 ? void 0 : result.data,
     });

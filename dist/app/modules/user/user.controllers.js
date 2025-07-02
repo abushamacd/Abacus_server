@@ -27,7 +27,7 @@ exports.getUserProfile = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'User get successfully',
+        message: 'Profile get successfully',
         data: result,
     });
 }));
@@ -38,7 +38,7 @@ exports.updateUserProfile = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(voi
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'User update successfully',
+        message: 'Profile update successfully',
         data: result,
     });
 }));
@@ -48,7 +48,7 @@ exports.updateUserRole = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'User role update successfully',
+        message: 'Role update successfully',
         data: result,
     });
 }));
@@ -58,7 +58,7 @@ exports.updateUserAccess = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'User access update successfully',
+        message: 'Access update successfully',
         data: result,
     });
 }));
@@ -91,7 +91,7 @@ exports.getUsers = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, void
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Users retrived successfully',
+        message: 'Users get successfully',
         meta: result.meta,
         data: result.data,
     });
@@ -103,7 +103,7 @@ exports.deleteUser = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, vo
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'User deleted successfully',
+        message: 'User delete successfully',
         data: result,
     });
 }));

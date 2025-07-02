@@ -38,7 +38,7 @@ exports.getProducts = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, v
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Products retrived successfully',
+        message: 'Products get successfully',
         meta: result === null || result === void 0 ? void 0 : result.meta,
         data: result === null || result === void 0 ? void 0 : result.data,
     });
@@ -50,7 +50,7 @@ exports.getProduct = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0, vo
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Product retrived successfully',
+        message: 'Product get successfully',
         data: result,
     });
 }));
@@ -61,7 +61,7 @@ exports.updateProduct = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0,
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Product updated successfully',
+        message: 'Product update successfully',
         data: result,
     });
 }));
@@ -72,7 +72,7 @@ exports.deleteProduct = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0,
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Product deleted successfully',
+        message: 'Product delete successfully',
         data: result,
     });
 }));
@@ -82,7 +82,7 @@ exports.deleteProducts = (0, tryCatch_1.tryCatch)((req, res) => __awaiter(void 0
     (0, sendRes_1.sendRes)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Products deleted successfully',
+        message: 'Products delete successfully',
         data: result,
     });
 }));

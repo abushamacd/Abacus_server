@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createInvoiceZod = void 0;
 const zod_1 = require("zod");
-// Create invoice zod validation schema
+// create invoice zod validation schema
 exports.createInvoiceZod = zod_1.z.object({
     body: zod_1.z.object({
         customerName: zod_1.z.string({

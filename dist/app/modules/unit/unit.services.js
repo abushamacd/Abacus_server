@@ -29,7 +29,6 @@ const http_status_1 = __importDefault(require("http-status"));
 const apiError_1 = require("./../../../errorFormating/apiError");
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
 const unit_constants_1 = require("./unit.constants");
-// import { asyncForEach } from '../../../utilities/asyncForEach'
 // create unit service
 const createUnitService = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const unit = yield prisma_1.default.unit.findFirst({

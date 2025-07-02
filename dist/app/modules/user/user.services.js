@@ -55,7 +55,7 @@ const updateUserProfileService = (id, payload) => __awaiter(void 0, void 0, void
     if (!isExist) {
         throw new apiError_1.ApiError(http_status_1.default.NOT_FOUND, 'User not found !');
     }
-    // phone and email  existency check in another user
+    // phone and email existency check in another user
     const phoneExist = yield prisma_1.default.user.findUnique({
         where: {
             phone: userData.phone,
@@ -200,7 +200,7 @@ const uploadPhotoService = (req) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.uploadPhotoService = uploadPhotoService;
-// get Users service
+// get users service
 const getUsersService = (filters, options) => __awaiter(void 0, void 0, void 0, function* () {
     const { limit, page, skip } = (0, paginationHelper_1.calculatePagination)(options);
     const { searchTerm } = filters, filterData = __rest(filters, ["searchTerm"]);
@@ -255,9 +255,6 @@ const deleteUserService = (id) => __awaiter(void 0, void 0, void 0, function* ()
             id,
         },
     });
-    if ((isExist === null || isExist === void 0 ? void 0 : isExist.role) === "Owner") {
-        throw new apiError_1.ApiError(http_status_1.default.UNAUTHORIZED, `Don't try to delete owner account`);
-    }
     if (!isExist) {
         throw new apiError_1.ApiError(http_status_1.default.BAD_REQUEST, 'User not found');
     }
@@ -266,7 +263,7 @@ const deleteUserService = (id) => __awaiter(void 0, void 0, void 0, function* ()
             id,
         },
     });
-    return null;
+    return result;
 });
 exports.deleteUserService = deleteUserService;
 // update user service

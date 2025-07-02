@@ -10,15 +10,16 @@ const user_1 = require("../../../enums/user");
 const invoice_validations_1 = require("./invoice.validations");
 const invoice_controllers_1 = require("./invoice.controllers");
 const router = express_1.default.Router();
-// example invoice route
+// create & gets invoice
 router
     .route('/')
     .post((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER, user_1.ENUM_USER_ROLE.MANAGER), (0, reqValidate_1.default)(invoice_validations_1.createInvoiceZod), invoice_controllers_1.createInvoice)
-    .get((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER, user_1.ENUM_USER_ROLE.MANAGER), invoice_controllers_1.getInvoices)
+    .get((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER, user_1.ENUM_USER_ROLE.MANAGER, user_1.ENUM_USER_ROLE.RETAILER, user_1.ENUM_USER_ROLE.CONSUMER), invoice_controllers_1.getInvoices)
     .delete((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER), invoice_controllers_1.deleteInvoices);
+// get, update & delete invoices
 router
     .route('/:id')
-    .get((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER, user_1.ENUM_USER_ROLE.MANAGER), invoice_controllers_1.getInvoice)
+    .get((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER, user_1.ENUM_USER_ROLE.MANAGER, user_1.ENUM_USER_ROLE.RETAILER, user_1.ENUM_USER_ROLE.CONSUMER), invoice_controllers_1.getInvoice)
     .patch((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER, user_1.ENUM_USER_ROLE.MANAGER), invoice_controllers_1.updateInvoice)
     .delete((0, auth_1.auth)(user_1.ENUM_USER_ROLE.OWNER), invoice_controllers_1.deleteInvoice);
 exports.default = router;
