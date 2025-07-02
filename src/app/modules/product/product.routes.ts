@@ -14,17 +14,18 @@ import {
 
 const router = express.Router()
 
-// example product route
+// create & get product
 router
   .route('/')
   .post(
-    auth(ENUM_USER_ROLE.OWNER),
+    auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.MANAGER),
     reqValidate(createProductZod),
     createProduct,
   )
   .get(auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.MANAGER), getProducts)
   .delete(auth(ENUM_USER_ROLE.OWNER), deleteProducts)
 
+// get, update & delete product
 router
   .route('/:id')
   .get(auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.MANAGER), getProduct)

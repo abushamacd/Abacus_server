@@ -9,7 +9,6 @@ import { IPaginationOptions } from '../../../interface/pagination'
 import { IGenericResponse } from '../../../interface/common'
 import { calculatePagination } from '../../../helpers/paginationHelper'
 import { supplierSearchableFields } from './supplier.constants'
-// import { asyncForEach } from '../../../utilities/asyncForEach'
 
 // create supplier service
 export const createSupplierService = async (
@@ -51,7 +50,6 @@ export const getSuppliersService = async (
       OR: supplierSearchableFields.map(field => ({
         [field]: {
           contains: searchTerm,
-          // mode: 'insensitive',
         },
       })),
     })
@@ -80,10 +78,6 @@ export const getSuppliersService = async (
         : {
             name: 'asc',
           },
-    // include: {
-    //   driver: true,
-    //   supervisor: true,
-    // },
   })
 
   if (!result) {

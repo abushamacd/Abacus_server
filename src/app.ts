@@ -9,11 +9,10 @@ import config from './config'
 const app: Application = express()
 
 // Middleware
-// app.use(cors())
-app.use(cors({ origin: config.client_url, credentials: true })) //for set referesh token to the cookies
+app.use(cors({ origin: config.client_url, credentials: true }))
 app.use(cookieParser())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json({ limit: config.limit }))
+app.use(express.urlencoded({ limit: config.limit, extended: true }))
 
 // Data API
 app.use('/api/v1', routers)

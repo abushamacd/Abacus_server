@@ -1,8 +1,6 @@
 import express from 'express'
-// import reqValidate from '../../../middleware/reqValidate'
 import { auth } from '../../../middleware/auth'
 import { ENUM_USER_ROLE } from '../../../enums/user'
-// import { createDbsyncZod } from './dbsync.validations'
 import {
   deleteUnmarge,
   getUnmarge,
@@ -13,19 +11,21 @@ import {
 
 const router = express.Router()
 
-// example dbsync route
+// database connection test
 router.route('/').get(auth(ENUM_USER_ROLE.OWNER), testDbsync)
-
+// local to remote
 router
   .route('/unSyncLtoR')
   .get(auth(ENUM_USER_ROLE.OWNER), getUnsyncs)
   .patch(auth(ENUM_USER_ROLE.OWNER), updateUnsyncs)
 
+// remote to local
 router
   .route('/unSyncRtoL')
   .get(auth(ENUM_USER_ROLE.OWNER), getUnsyncs)
   .patch(auth(ENUM_USER_ROLE.OWNER), updateUnsyncs)
 
+// remove unsync data
 router
   .route('/unmarge')
   .get(auth(ENUM_USER_ROLE.OWNER), getUnmarge)

@@ -34,7 +34,7 @@ export const getProducts = tryCatch(async (req: Request, res: Response) => {
   sendRes<Product[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Products retrived successfully',
+    message: 'Products get successfully',
     meta: result?.meta,
     data: result?.data,
   })
@@ -46,7 +46,7 @@ export const getProduct = tryCatch(async (req: Request, res: Response) => {
   sendRes<Product>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Product retrived successfully',
+    message: 'Product get successfully',
     data: result,
   })
 })
@@ -58,7 +58,7 @@ export const updateProduct = tryCatch(async (req: Request, res: Response) => {
   sendRes<Product>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Product updated successfully',
+    message: 'Product update successfully',
     data: result,
   })
 })
@@ -70,7 +70,7 @@ export const deleteProduct = tryCatch(async (req: Request, res: Response) => {
   sendRes<Product | null>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Product deleted successfully',
+    message: 'Product delete successfully',
     data: result,
   })
 })
@@ -81,7 +81,7 @@ export const deleteProducts = tryCatch(async (req: Request, res: Response) => {
   sendRes<Product | null>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Products deleted successfully',
+    message: 'Products delete successfully',
     data: result,
   })
 })

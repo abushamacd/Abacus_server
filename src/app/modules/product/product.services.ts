@@ -11,7 +11,6 @@ import { calculatePagination } from '../../../helpers/paginationHelper'
 import { productPopulate, productSearchableFields } from './product.constants'
 import { JwtPayload } from 'jsonwebtoken'
 import { asyncForEach } from '../../../utilities/asyncForEach'
-// import { asyncForEach } from '../../../utilities/asyncForEach'
 
 // create product service
 export const createProductService = async (

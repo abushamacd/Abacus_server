@@ -44,11 +44,15 @@ router
     updateUserProfile,
   )
 
+// change user role
 router.route('/changeRole').patch(auth(ENUM_USER_ROLE.OWNER), updateUserRole)
+
+// change user access
 router
   .route('/changeAccess/:id')
   .patch(auth(ENUM_USER_ROLE.OWNER), updateUserAccess)
 
+// upload profile photo
 router.route('/photo').post(
   auth(
     ENUM_USER_ROLE.OWNER,
@@ -61,11 +65,13 @@ router.route('/photo').post(
   uploadPhoto,
 )
 
+// get user
 router
   .route('/:id')
   .get(auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.MANAGER), getUser)
   .patch(auth(ENUM_USER_ROLE.OWNER), updateUser)
 
+// delete user
 router.route('/:id').delete(auth(ENUM_USER_ROLE.OWNER), deleteUser)
 
 export default router

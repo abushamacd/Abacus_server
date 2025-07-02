@@ -33,7 +33,7 @@ export const getSuppliers = tryCatch(async (req: Request, res: Response) => {
   sendRes<Supplier[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Suppliers retrived successfully',
+    message: 'Suppliers get successfully',
     meta: result?.meta,
     data: result?.data,
   })
@@ -45,7 +45,7 @@ export const getSupplier = tryCatch(async (req: Request, res: Response) => {
   sendRes<Supplier>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Supplier retrived successfully',
+    message: 'Supplier get successfully',
     data: result,
   })
 })
@@ -69,7 +69,7 @@ export const deleteSupplier = tryCatch(async (req: Request, res: Response) => {
   sendRes<Supplier | null>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Supplier deleted successfully',
+    message: 'Supplier delete successfully',
     data: result,
   })
 })

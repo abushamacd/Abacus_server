@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-// Create invoice zod validation schema
+// create invoice zod validation schema
 export const createInvoiceZod = z.object({
   body: z.object({
     customerName: z.string({

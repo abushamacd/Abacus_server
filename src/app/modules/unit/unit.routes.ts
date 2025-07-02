@@ -13,7 +13,7 @@ import {
 
 const router = express.Router()
 
-// example unit route
+// create & get unites
 router
   .route('/')
   .post(
@@ -23,6 +23,7 @@ router
   )
   .get(auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.MANAGER), getUnits)
 
+// get, update & delete unit
 router
   .route('/:id')
   .get(auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.MANAGER), getUnit)

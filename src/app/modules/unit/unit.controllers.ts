@@ -33,7 +33,7 @@ export const getUnits = tryCatch(async (req: Request, res: Response) => {
   sendRes<Unit[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Units retrived successfully',
+    message: 'Units get successfully',
     meta: result?.meta,
     data: result?.data,
   })
@@ -45,7 +45,7 @@ export const getUnit = tryCatch(async (req: Request, res: Response) => {
   sendRes<Unit>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Unit retrived successfully',
+    message: 'Unit get successfully',
     data: result,
   })
 })
@@ -57,19 +57,19 @@ export const updateUnit = tryCatch(async (req: Request, res: Response) => {
   sendRes<Unit>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Unit updated successfully',
+    message: 'Unit update successfully',
     data: result,
   })
 })
 
-// delete unit
+// delete unit controller
 export const deleteUnit = tryCatch(async (req: Request, res: Response) => {
   const { id } = req.params
   const result = await deleteUnitService(id)
   sendRes<Unit | null>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Unit deleted successfully',
+    message: 'Unit delete successfully',
     data: result,
   })
 })

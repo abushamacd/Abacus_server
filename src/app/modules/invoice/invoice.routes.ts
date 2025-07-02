@@ -14,7 +14,7 @@ import {
 
 const router = express.Router()
 
-// example invoice route
+// create & gets invoice
 router
   .route('/')
   .post(
@@ -22,12 +22,29 @@ router
     reqValidate(createInvoiceZod),
     createInvoice,
   )
-  .get(auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.MANAGER), getInvoices)
+  .get(
+    auth(
+      ENUM_USER_ROLE.OWNER,
+      ENUM_USER_ROLE.MANAGER,
+      ENUM_USER_ROLE.RETAILER,
+      ENUM_USER_ROLE.CONSUMER,
+    ),
+    getInvoices,
+  )
   .delete(auth(ENUM_USER_ROLE.OWNER), deleteInvoices)
 
+// get, update & delete invoices
 router
   .route('/:id')
-  .get(auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.MANAGER), getInvoice)
+  .get(
+    auth(
+      ENUM_USER_ROLE.OWNER,
+      ENUM_USER_ROLE.MANAGER,
+      ENUM_USER_ROLE.RETAILER,
+      ENUM_USER_ROLE.CONSUMER,
+    ),
+    getInvoice,
+  )
   .patch(auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.MANAGER), updateInvoice)
   .delete(auth(ENUM_USER_ROLE.OWNER), deleteInvoice)
 

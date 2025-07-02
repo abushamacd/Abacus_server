@@ -34,7 +34,7 @@ export const getInvoices = tryCatch(async (req: Request, res: Response) => {
   sendRes<Invoice[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Invoices retrived successfully',
+    message: 'Invoices get successfully',
     meta: result?.meta,
     data: result?.data,
   })
@@ -46,7 +46,7 @@ export const getInvoice = tryCatch(async (req: Request, res: Response) => {
   sendRes<Invoice>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Invoice retrived successfully',
+    message: 'Invoice get successfully',
     data: result,
   })
 })
@@ -58,7 +58,7 @@ export const updateInvoice = tryCatch(async (req: Request, res: Response) => {
   sendRes<Invoice>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Invoice updated successfully',
+    message: 'Invoice update successfully',
     data: result,
   })
 })
@@ -70,7 +70,7 @@ export const deleteInvoice = tryCatch(async (req: Request, res: Response) => {
   sendRes<Invoice | null>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Invoice deleted successfully',
+    message: 'Invoice delete successfully',
     data: result,
   })
 })
@@ -81,7 +81,7 @@ export const deleteInvoices = tryCatch(async (req: Request, res: Response) => {
   sendRes<Invoice | null>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Invoices deleted successfully',
+    message: 'Invoices delete successfully',
     data: result,
   })
 })

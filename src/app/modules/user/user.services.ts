@@ -40,7 +40,7 @@ export const updateUserProfileService = async (id: string, payload: User) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found !')
   }
 
-  // phone and email  existency check in another user
+  // phone and email existency check in another user
   const phoneExist = await prisma.user.findUnique({
     where: {
       phone: userData.phone,
@@ -220,7 +220,7 @@ export const uploadPhotoService = async (req: Request) => {
   }
 }
 
-// get Users service
+// get users service
 export const getUsersService = async (
   filters: IUserFilterRequest,
   options: IPaginationOptions,
@@ -287,10 +287,6 @@ export const deleteUserService = async (id: string): Promise<User | null> => {
     },
   })
 
-  if (isExist?.role === "Owner") {
-    throw new ApiError(httpStatus.UNAUTHORIZED, `Don't try to delete owner account`)
-  }
-
   if (!isExist) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User not found')
   }
@@ -301,7 +297,7 @@ export const deleteUserService = async (id: string): Promise<User | null> => {
     },
   })
 
-  return null
+  return result
 }
 
 // update user service

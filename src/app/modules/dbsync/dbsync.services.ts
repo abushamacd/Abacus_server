@@ -8,6 +8,7 @@ import { IGenericResponse } from '../../../interface/common'
 import { asyncForEach } from '../../../utilities/asyncForEach'
 import { connectDatabases } from '../../../utilities/bootStrap'
 import { localPrisma, remotePrisma } from '../../../utilities/prisma'
+import config from '../../../config'
 
 // Test database connection service
 export const testDbsyncService = async (): Promise<any | null> => {
@@ -68,75 +69,81 @@ export const updateUnsyncsService = async (
   // Local to Remote
   if (path === 'unSyncLtoR') {
     const result = await asyncForEach(data, async (singleData: any) => {
-      const result = await remotePrisma.$transaction(async remoteTx => {
-        // @ts-ignore
-        const find = await remoteTx[payload?.schemaName].findFirst({
-          where: {
-            id: singleData?.id,
-          },
-        })
-        // If data exist on remote database run if condition, if not exist run else condition
-        if (find !== null) {
+      const result = await remotePrisma.$transaction(
+        async remoteTx => {
           // @ts-ignore
-          const result = await remoteTx[payload?.schemaName].update({
-            where: { id: find?.id },
-            data: singleData,
+          const find = await remoteTx[payload?.schemaName].findFirst({
+            where: {
+              id: singleData?.id,
+            },
           })
-
-          if (result == null) {
-            throw new ApiError(
-              httpStatus.NOT_FOUND,
-              'Data not updated on remote data',
-            )
-          }
-
-          const update = await localPrisma.$transaction(async localTx => {
+          // If data exist on remote database run if condition, if not exist run else condition
+          if (find !== null) {
             // @ts-ignore
-            const update = await localTx[payload?.schemaName].update({
-              where: { id: result?.id },
-              data: { isSynced: true },
+            const result = await remoteTx[payload?.schemaName].update({
+              where: { id: find?.id },
+              data: singleData,
             })
+
+            if (result == null) {
+              throw new ApiError(
+                httpStatus.NOT_FOUND,
+                'Data not updated on remote data',
+              )
+            }
+
+            const update = await localPrisma.$transaction(async localTx => {
+              // @ts-ignore
+              const update = await localTx[payload?.schemaName].update({
+                where: { id: result?.id },
+                data: { isSynced: true },
+              })
+              return update
+            })
+
+            if (update == null) {
+              throw new ApiError(
+                httpStatus.NOT_FOUND,
+                'Data not updated on local data',
+              )
+            }
             return update
-          })
-
-          if (update == null) {
-            throw new ApiError(
-              httpStatus.NOT_FOUND,
-              'Data not updated on local data',
-            )
-          }
-          return update
-        } else {
-          // @ts-ignore
-          const result = await remoteTx[payload?.schemaName].create({
-            data: singleData,
-          })
-
-          if (result == null) {
-            throw new ApiError(
-              httpStatus.NOT_FOUND,
-              'Data not create on remote data',
-            )
-          }
-
-          const update = await localPrisma.$transaction(async localTx => {
+          } else {
             // @ts-ignore
-            const update = await localTx[payload?.schemaName].update({
-              where: { id: result?.id },
-              data: { isSynced: true },
+            const result = await remoteTx[payload?.schemaName].create({
+              data: singleData,
             })
-            return update
-          })
 
-          if (update == null) {
-            throw new ApiError(
-              httpStatus.NOT_FOUND,
-              'Data not updated on local data',
-            )
+            if (result == null) {
+              throw new ApiError(
+                httpStatus.NOT_FOUND,
+                'Data not create on remote data',
+              )
+            }
+
+            const update = await localPrisma.$transaction(async localTx => {
+              // @ts-ignore
+              const update = await localTx[payload?.schemaName].update({
+                where: { id: result?.id },
+                data: { isSynced: true },
+              })
+              return update
+            })
+
+            if (update == null) {
+              throw new ApiError(
+                httpStatus.NOT_FOUND,
+                'Data not updated on local data',
+              )
+            }
+            return update
           }
-          return update
-        }
-      })
+        },
+        {
+          maxWait: Number(config.txwait),
+          timeout: Number(config.txtimeout),
+        },
+      )
       return result
     })
 
@@ -146,75 +153,81 @@ export const updateUnsyncsService = async (
   // Remote to Local
   if (path === 'unSyncRtoL') {
     const result = await asyncForEach(data, async (singleData: any) => {
-      const result = await localPrisma.$transaction(async localTx => {
-        // @ts-ignore
-        const find = await localTx[payload?.schemaName].findFirst({
-          where: {
-            id: singleData?.id,
-          },
-        })
-
-        if (find !== null) {
+      const result = await localPrisma.$transaction(
+        async localTx => {
           // @ts-ignore
-          const result = await localTx[payload?.schemaName].update({
-            where: { id: find?.id },
-            data: singleData,
+          const find = await localTx[payload?.schemaName].findFirst({
+            where: {
+              id: singleData?.id,
+            },
           })
 
-          if (result == null) {
-            throw new ApiError(
-              httpStatus.NOT_FOUND,
-              'Data not updated on local data',
-            )
-          }
-
-          const update = await remotePrisma.$transaction(async remoteTx => {
+          if (find !== null) {
             // @ts-ignore
-            const update = await remoteTx[payload?.schemaName].update({
-              where: { id: result?.id },
-              data: { isSynced: true },
+            const result = await localTx[payload?.schemaName].update({
+              where: { id: find?.id },
+              data: singleData,
             })
+
+            if (result == null) {
+              throw new ApiError(
+                httpStatus.NOT_FOUND,
+                'Data not updated on local data',
+              )
+            }
+
+            const update = await remotePrisma.$transaction(async remoteTx => {
+              // @ts-ignore
+              const update = await remoteTx[payload?.schemaName].update({
+                where: { id: result?.id },
+                data: { isSynced: true },
+              })
+              return update
+            })
+
+            if (update == null) {
+              throw new ApiError(
+                httpStatus.NOT_FOUND,
+                'Data not updated on remote data',
+              )
+            }
             return update
-          })
-
-          if (update == null) {
-            throw new ApiError(
-              httpStatus.NOT_FOUND,
-              'Data not updated on remote data',
-            )
-          }
-          return update
-        } else {
-          // @ts-ignore
-          const result = await localTx[payload?.schemaName].create({
-            data: singleData,
-          })
-
-          if (result == null) {
-            throw new ApiError(
-              httpStatus.NOT_FOUND,
-              'Data not create on local data',
-            )
-          }
-
-          const update = await remotePrisma.$transaction(async remoteTx => {
+          } else {
             // @ts-ignore
-            const update = await remoteTx[payload?.schemaName].update({
-              where: { id: result?.id },
-              data: { isSynced: true },
+            const result = await localTx[payload?.schemaName].create({
+              data: singleData,
             })
-            return update
-          })
 
-          if (update == null) {
-            throw new ApiError(
-              httpStatus.NOT_FOUND,
-              'Data not updated on remote data',
-            )
+            if (result == null) {
+              throw new ApiError(
+                httpStatus.NOT_FOUND,
+                'Data not create on local data',
+              )
+            }
+
+            const update = await remotePrisma.$transaction(async remoteTx => {
+              // @ts-ignore
+              const update = await remoteTx[payload?.schemaName].update({
+                where: { id: result?.id },
+                data: { isSynced: true },
+              })
+              return update
+            })
+
+            if (update == null) {
+              throw new ApiError(
+                httpStatus.NOT_FOUND,
+                'Data not updated on remote data',
+              )
+            }
+            return update
           }
-          return update
-        }
-      })
+        },
+        {
+          maxWait: Number(config.txwait),
+          timeout: Number(config.txtimeout),
+        },
+      )
       return result
     })
 
@@ -236,7 +249,6 @@ export const getUnmargeService = async (
   const localIds = new Set(localData.map((item: any) => item.id))
 
   const unMargeData = remoteData.filter((item: any) => !localIds.has(item.id))
-  // .map((item: any) => item.id)
 
   return {
     meta: {

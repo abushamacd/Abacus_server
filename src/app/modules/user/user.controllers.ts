@@ -23,7 +23,7 @@ export const getUserProfile = tryCatch(async (req, res) => {
   sendRes<User>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User get successfully',
+    message: 'Profile get successfully',
     data: result,
   })
 })
@@ -34,7 +34,7 @@ export const updateUserProfile = tryCatch(async (req, res) => {
   sendRes<User>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User update successfully',
+    message: 'Profile update successfully',
     data: result,
   })
 })
@@ -45,7 +45,7 @@ export const updateUserRole = tryCatch(async (req, res) => {
   sendRes<User>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User role update successfully',
+    message: 'Role update successfully',
     data: result,
   })
 })
@@ -56,7 +56,7 @@ export const updateUserAccess = tryCatch(async (req, res) => {
   sendRes<User>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User access update successfully',
+    message: 'Access update successfully',
     data: result,
   })
 })
@@ -91,7 +91,7 @@ export const getUsers = tryCatch(async (req, res) => {
   sendRes<User[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Users retrived successfully',
+    message: 'Users get successfully',
     meta: result.meta,
     data: result.data,
   })
@@ -104,7 +104,7 @@ export const deleteUser = tryCatch(async (req, res) => {
   sendRes<User | null>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User deleted successfully',
+    message: 'User delete successfully',
     data: result,
   })
 })

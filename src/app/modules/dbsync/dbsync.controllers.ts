@@ -18,7 +18,7 @@ export const testDbsync = tryCatch(async (req: Request, res: Response) => {
   sendRes<any>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Create dbsync successfully',
+    message: 'Database connected successfully',
     data: result,
   })
 })
@@ -32,7 +32,7 @@ export const getUnsyncs = tryCatch(async (req: Request, res: Response) => {
   sendRes<any[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Dbsyncs retrived successfully',
+    message: 'Data get successfully',
     meta: result?.meta,
     data: result?.data,
   })
@@ -55,7 +55,7 @@ export const getUnmarge = tryCatch(async (req: Request, res: Response) => {
   sendRes<any[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Unmarged retrived successfully',
+    message: 'Unmarged get successfully',
     meta: result?.meta,
     data: result?.data,
   })
@@ -67,7 +67,7 @@ export const deleteUnmarge = tryCatch(async (req: Request, res: Response) => {
   sendRes<any[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Unmarged retrived successfully',
+    message: 'Unmarged delete successfully',
     meta: result?.meta,
     data: result?.data,
   })

@@ -9,7 +9,6 @@ import { IPaginationOptions } from '../../../interface/pagination'
 import { IGenericResponse } from '../../../interface/common'
 import { calculatePagination } from '../../../helpers/paginationHelper'
 import { unitSearchableFields } from './unit.constants'
-// import { asyncForEach } from '../../../utilities/asyncForEach'
 
 // create unit service
 export const createUnitService = async (data: Unit): Promise<Unit | null> => {
